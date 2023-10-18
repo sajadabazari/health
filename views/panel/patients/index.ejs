@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="fa-IR" dir="rtl">
+  <%- include("../layout/head",{title:'پنل سامانه سلامت'}) %>
+
+  <link rel="stylesheet" href="/css/tagify.css" />
+  <link rel="stylesheet" href="/css/datatable-custom.css" />
+
+  <body class="app sidebar-mini rtl light-mode">
+    <%- include('../layout/switcher') %>
+    <!-- GLOBAL-LOADER -->
+    <div id="global-loader">
+      <img src="/assets/images/loader.svg" class="loader-img" alt="Loader" />
+    </div>
+    <!-- /GLOBAL-LOADER -->
+
+    <!-- PAGE -->
+    <div class="page">
+      <div class="page-main">
+        <!-- app-Header -->
+        <%- include('../layout/header',{login}) %>
+        <!-- /app-Header -->
+        <%- include('../layout/sidebar') %>
+
+        <!--==========================Insert_Edit Modal=================================-->
+
+        <div class="modal fade" id="input-modal">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content modal-content-demo">
+              <div class="modal-header">
+                <h6 class="modal-title" id="_hModalTitle">ثبت تاریخچه سلامت</h6>
+                <button
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="mb-3">
+                    <label class="col-form-label"
+                      >سابقه واکنش به واکسن ؟
+                    </label>
+                    <label
+                      class="custom-control custom-radio"
+                      style="display: inline-block; cursor: pointer"
+                    >
+                      <input
+                        type="radio"
+                        class="custom-control-input"
+                        name="allergy"
+                        value="yes"
+                        checked
+                      />
+                      <span class="custom-control-label">بله</span>
+                    </label>
+                    <label
+                      class="custom-control custom-radio"
+                      style="display: inline-block; cursor: pointer"
+                    >
+                      <input
+                        type="radio"
+                        class="custom-control-input"
+                        name="allergy"
+                        value="no"
+                      />
+                      <span class="custom-control-label">خیر</span>
+                    </label>
+                  </div>
+                  <div class="mb-3">
+                    <label class="col-form-label">
+                      سابقه ابتلا به کرونا ؟</label
+                    >
+                    <label
+                      class="custom-control custom-radio"
+                      style="display: inline-block; cursor: pointer"
+                    >
+                      <input
+                        type="radio"
+                        class="custom-control-input"
+                        name="testResult"
+                        value="yes"
+                        checked
+                      />
+                      <span class="custom-control-label">بله</span>
+                    </label>
+                    <label
+                      class="custom-control custom-radio"
+                      style="display: inline-block; cursor: pointer"
+                    >
+                      <input
+                        type="radio"
+                        class="custom-control-input"
+                        name="testResult"
+                        value="no"
+                      />
+                      <span class="custom-control-label">خیر</span>
+                    </label>
+                  </div>
+                  <div class="mb-3">
+                    <label for="chronicDiseases" class="col-form-label"
+                      >سابقه بیماری مزمن</label
+                    >
+                    <br />
+                    <div class="checkbox-cstm">
+                      <label>بیماری کبدی</label>
+                      <input
+                        type="checkbox"
+                        name="diseasesChecks[]"
+                        value="cD_1"
+                      />
+                      <label>بیماری کلیوی</label>
+                      <input
+                        type="checkbox"
+                        name="diseasesChecks[]"
+                        value="cD_2"
+                      />
+                      <label>نقص سیستم ایمنی</label>
+                      <input
+                        type="checkbox"
+                        name="diseasesChecks[]"
+                        value="cD_3"
+                      />
+                      <label>فشار خون</label>
+                      <input
+                        type="checkbox"
+                        name="diseasesChecks[]"
+                        value="cD_5"
+                      />
+                      <label>بیماری تنفسی یا آسم</label>
+                      <input
+                        type="checkbox"
+                        name="diseasesChecks[]"
+                        value="cD_4"
+                      />
+                      <label>بیماری قلبی</label>
+                      <input
+                        type="checkbox"
+                        name="diseasesChecks[]"
+                        value="cD_6"
+                      />
+                      <label>دیابت</label>
+                      <input
+                        type="checkbox"
+                        name="diseasesChecks[]"
+                        value="cD_7"
+                      />
+                      <label>سایر</label>
+                      <input type="checkbox" class="others" />
+                    </div>
+                    <input name="tags" id="chronicDiseases" value="" />
+                    <h6 style="font-size: 11px">
+                      توجه : با وارد کردن و زدن کلید Enter میتوانید موارد بیشتر
+                      اضافه کنید
+                    </h6>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button
+                  class="btn ripple btn-success"
+                  id="regHInfo"
+                  data-action="create"
+                  data-bs-dismiss="modal"
+                  type="button"
+                >
+                  ثبت تاریخچه
+                </button>
+                <button
+                  class="btn ripple btn-danger"
+                  data-bs-dismiss="modal"
+                  type="button"
+                >
+                  بستن
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--==========================Insert_Edit Modal=================================-->
+
+        <!--==========================Delete Modal=================================-->
+        <!-- MODAL Effects -->
+        <div class="modal fade" id="modaldemo8">
+          <div
+            class="modal-dialog modal-dialog-centered text-center"
+            role="document"
+          >
+            <div class="modal-content modal-content-demo">
+              <div class="modal-header">
+                <h6 class="modal-title">حذف بیمار</h6>
+                <button
+                  aria-label="Close"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                >
+                  <span aria-hidden="true ">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">آیا با حذف موافق هستید؟</div>
+
+              <div class="modal-footer">
+                <button class="btn btn-light deleteH">تایید</button>
+                <button class="btn btn-danger" data-bs-dismiss="modal">
+                  لغو
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <style>
+          #modaldemo8 .modal-header {
+            background-color: rgb(169 0 0 / 94%);
+            border-bottom: 1px solid rgb(126 0 0) !important;
+            color: white;
+          }
+
+          #modaldemo8 .modal-body {
+            background-color: rgb(159 0 0 / 94%);
+            color: white;
+          }
+
+          #modaldemo8 .modal-footer {
+            background-color: rgb(169 0 0 / 94%);
+            border-top: 1px solid rgb(126 0 0) !important;
+            color: white;
+          }
+        </style>
+        <!--==========================Delete Modal=================================-->
+
+        <!----=====================================APP-CONTENT OPEN =========================================-->
+        <div class="main-content app-content mt-0">
+          <div class="side-app">
+            <!-- CONTAINER -->
+            <div class="main-container container-fluid">
+              <br />
+
+              <!-- ROW OPEN -->
+              <div class="row row-cards">
+                <div class="col-lg-12 col-xl-12">
+                  <div class="card">
+                    <div class="card-header border-bottom-0">
+<!--                       <a
+                        href="<%=process.env.SITEURL%>/panel/user/create/p"
+                        class="btn btn-primary"
+                        >ثب نام بیمار
+                      </a> -->
+                    </div>
+                    <div class="e-table px-5 pb-5">
+                      <div class="table-responsive table-lg">
+                        <div class="sk-loader">
+                          <div
+                            class="skeleton skeleton-line"
+                            style="
+                              --c-w: 100%;
+                              --c-s: 60px;
+                              --l-h: 40px;
+                              --t: 1.5s;
+                              --g-gap: 30px;
+                            "
+                          ></div>
+                          <div
+                            class="skeleton skeleton-line"
+                            style="
+                              --c-w: 100%;
+                              --c-s: 60px;
+                              --l-h: 30px;
+                              --t: 1.5s;
+                              --g-gap: 30px;
+                              transform: rotate(180deg);
+                            "
+                          ></div>
+                          <div
+                            class="skeleton skeleton-line"
+                            style="
+                              --c-w: 100%;
+                              --c-s: 60px;
+                              --l-h: 30px;
+                              --t: 1.5s;
+                              --g-gap: 30px;
+                              transform: rotate(180deg);
+                            "
+                          ></div>
+                          <div
+                            class="skeleton skeleton-line"
+                            style="
+                              --c-w: 100%;
+                              --c-s: 60px;
+                              --l-h: 30px;
+                              --t: 1.5s;
+                              --g-gap: 30px;
+                              transform: rotate(180deg);
+                            "
+                          ></div>
+                          <div
+                            class="skeleton skeleton-line"
+                            style="
+                              --c-w: 100%;
+                              --c-s: 60px;
+                              --l-h: 30px;
+                              --t: 1.5s;
+                              --g-gap: 30px;
+                              transform: rotate(180deg);
+                            "
+                          ></div>
+                          <div
+                            class="skeleton skeleton-line"
+                            style="
+                              --c-w: 100%;
+                              --c-s: 60px;
+                              --l-h: 30px;
+                              --t: 1.5s;
+                              --g-gap: 30px;
+                              transform: rotate(180deg);
+                            "
+                          ></div>
+                        </div>
+                        <div
+                          class="dt-ext table-responsive"
+                          style="visibility: hidden"
+                        >
+                          <table class="display" id="patientsTable">
+                            <thead>
+                              <tr>
+                                <th>نام بیمار</th>
+                                <th>ایمیل</th>
+                                <th>کد ملی</th>
+                                <th>وضعیت پروفایل</th>
+                                <th class="text-center">عملکردها</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <% if(patients){ patients.forEach((patient,key)=> { %>
+
+                              <tr>
+                                <td class="text-nowrap align-middle">
+                                  <%=patient.fname%> <%=patient.lname%>
+                                </td>
+                                <td class="text-nowrap align-middle">
+                                  <%=patient.email%>
+                                </td>
+                                <td class="text-nowrap align-middle">
+                                  <span> <%=patient.nationalCode%> </span>
+                                </td>
+                                <td class="text-nowrap align-middle">
+                                  <span>
+                                    <%-(patient.userLevelLabel == 'بیمار')?(patient.patientProfileStatus)?'<p style="color:green;margin: auto;">تکمیل شده</p>':'<p style="color:red;margin: auto;">تکمیل نشده</p>':''%>
+                                  </span>
+                                </td>
+                                <td
+                                  class="text-center align-middle"
+                                  style="width: 20%; padding-right: 4px"
+                                >
+                                  <div class="btn-group align-top">
+                                    <%if(login.accessibility.deletePatient || login.isAdmin){%>
+                                    <a
+                                      href="#"
+                                      class="btn btn-sm btn-danger deletePatient"
+                                      data-target="#user-form-modal"
+                                      data-bs-toggle=""
+                                      type="button"
+                                      user-id="<%=patient.patient._id%>"
+                                    >
+                                      <i class="fa fa-trash"></i>
+                                    </a>
+                                    <%}%>
+                                    <%if(login.accessibility.ptnRegister || login.isAdmin){%>
+                                    <a
+                                      href="<%=process.env.SITEURL%>/panel/patient/edit/<%=patient.patient._id%>"
+                                      class="btn btn-sm btn-secondary badge"
+                                      data-target="#user-form-modal"
+                                      data-bs-toggle=""
+                                      type="button"
+                                      >ویرایش</a
+                                    >
+                                    <%}%>
+                                    <%if(login.accessibility.ptnSideEffect  || login.isAdmin){%>
+                                    <a
+                                      href="<%=process.env.SITEURL%>/panel/patient/e_crfs/<%=patient.patient._id%>"
+                                      class="btn btn-sm btn-primary badge"
+                                      data-target="#user-form-modal"
+                                      data-bs-toggle=""
+                                      type="button"
+                                      >عوارض واکسن</a
+                                    >
+                                    <%}%>
+                                    <%if(login.accessibility.editHistory || login.isAdmin){%>
+                                    <a
+                                      class="btn btn-sm btn-warning badge _pHistory"
+                                      href="#input-modal"
+                                      data-bs-effect="effect-scale"
+                                      data-bs-toggle="modal"
+                                      data-id="<%=patient._id%>"
+                                      data-value="<%=JSON.stringify(patient.patient.healthHistory)%>"
+                                      type="button"
+                                      >ثبت تاریخچه بیمار</a
+                                    >
+                                     <%}%>
+
+                                  </div>
+                                </td>
+                              </tr>
+                              <% }); } %>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- COL-END -->
+              </div>
+              <!-- ROW CLOSED -->
+            </div>
+            <!-- CONTAINER CLOSED -->
+          </div>
+        </div>
+        <!--=============================================== APP-CONTENT CLOSE ==================================-->
+      </div>
+
+      <!-- FOOTER -->
+      <footer class="footer"></footer>
+      <!-- FOOTER END -->
+    </div>
+    <!-- Delete Item modal -->
+    <div
+      class="modal fade"
+      id="deleteItem"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="deleteItemLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteItemLabel">حذف بیمار</h5>
+            <button
+              class="btn-close"
+              type="button"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">آیا نسبت به حذف این مورد اطمینان دارید؟</div>
+          </div>
+          <div class="modal-footer">
+            <button
+              class="btn btn-danger"
+              type="button"
+              data-bs-dismiss="modal"
+            >
+              خیر
+            </button>
+            <button class="btn btn-success" type="button" id="deleteItemBtn">
+              <span
+                class="spinner-grow spinner-grow-sm visually-hidden"
+                role="status"
+                aria-hidden="true"
+              ></span>
+              بله
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- BACK-TO-TOP -->
+    <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
+
+    <%- include('../layout/script.ejs') %>
+    <!-- SWEET-ALERT JS -->
+    <script src="/assets/plugins/sweet-alert/sweetalert.min.js"></script>
+    <script src="/js/tagify.min.js"></script>
+    <script>
+      $(document).ready(() => {
+        let deleteUserId = 0;
+        let patientsTable = $("#patientsTable").DataTable({
+        responsive: true,
+        pageLength: 25
+      });
+      $(".sk-loader").remove();
+      $(".table-responsive").css("visibility", "unset");
+        $(".deletePatient").on("click", function (e) {
+          e.preventDefault();
+          deleteUserId = $(this).attr("user-id");
+          $("#deleteItem").modal("show");
+        });
+        $("#deleteItemBtn").on("click", function (e) {
+          e.preventDefault();
+          if (deleteUserId != 0) {
+            $("#deleteItemBtn").prop("disabled", true);
+            $("#deleteItemBtn span").removeClass("visually-hidden");
+            let email = $("#forgetEmail").val();
+            let data = {
+              deleteUserId,
+            };
+            data = JSON.stringify(data);
+            $.ajax({
+              url: `${siteUrl}/panel/patient/delete/${deleteUserId}`,
+              type: "delete",
+              success: (res) => {
+                console.log(res);
+                Toast(res.message, "success", false);
+                $("#deleteItemBtn").prop("disabled", false);
+                $("#deleteItemBtn span").addClass("visually-hidden");
+                $("#deleteItem").modal("hide");
+                setTimeout(() => {
+                  window.location.href = `${window.location.origin}/panel/patients`;
+                }, 400);
+              },
+              error: function (err) {
+                $("#deleteItemBtn").prop("disabled", false);
+                $("#deleteItemBtn span").addClass("visually-hidden");
+                $("#deleteItem").modal("hide");
+                console.log(err);
+                Toast(err.responseJSON.message, "error", false);
+              },
+            });
+          }
+          console.log(deleteUserId);
+        });
+        $("#userSearch").on("click", () => {
+          let searchInput = $("#searchInput").val().trim();
+          window.location.href = `<%=process.env.SITEURL%>/panel/patient/search/${searchInput}`;
+        });
+        let inputElm = document.querySelector('input[name="tags"]');
+        let tagify = new Tagify(inputElm);
+        let editElm = null;
+        $("._pHistory").on("click", (e) => {
+          editElm = e;
+          tagify.removeAllTags();
+          $("#regHInfo").attr(
+            "data-id",
+            $(e.target).closest("a").attr("data-id")
+          );
+          let _historyData = $(e.target).closest("a").attr("data-value");
+          _historyData = JSON.parse(_historyData);
+          $('input[name="allergy"][value="yes"]').prop(
+            "checked",
+            _historyData.allergy
+          );
+          $('input[name="allergy"][value="no"]').prop(
+            "checked",
+            !_historyData.allergy
+          );
+          $('input[name="testResult"][value="yes"]').prop(
+            "checked",
+            _historyData.testResult
+          );
+          $('input[name="testResult"][value="no"]').prop(
+            "checked",
+            !_historyData.testResult
+          );
+          $.map($("input[name='diseasesChecks[]']"), (e) => {
+            if (_historyData.diseasesChecks.includes(e.value)) {
+              $(e).prop("checked", true);
+            } else {
+              $(e).prop("checked", false);
+            }
+          });
+          if (_historyData.chronicDiseases.length > 0) {
+            $("input[type=checkbox].others").prop("checked", true);
+            tagify.addTags(_historyData.chronicDiseases);
+          } else {
+            $("input[type=checkbox].others").prop("checked", false);
+            tagify.setReadonly(true);
+          }
+        });
+
+        $("#regHInfo").on("click", (e) => {
+          let allergy = $('input[name="allergy"]:checked').val();
+          let testResult = $('input[name="testResult"]:checked').val();
+          let chronicDiseases = tagify.value.map((disease) => {
+            return disease.value;
+          });
+          let diseasesChecks = [];
+          $.map($("input[name='diseasesChecks[]']:checked"), (e) => {
+            diseasesChecks.push($(e).val());
+          });
+          let data = JSON.stringify({
+            _id: $(e.target).attr("data-id"),
+            allergy,
+            testResult,
+            chronicDiseases,
+            diseasesChecks,
+          });
+          $.ajax({
+            url: `<%=process.env.SITEURL%>/panel/patient/set_history`,
+            type: "post",
+            dataType: "json",
+            contentType: "application/json",
+            data: data,
+            success: (res) => {
+              console.log(res);
+              if (res.statusCode === 200) {
+                let dataValue = {
+                  allergy: allergy == "yes" ? true : false,
+                  testResult: testResult == "yes" ? true : false,
+                  chronicDiseases,
+                  diseasesChecks,
+                };
+                console.log(dataValue);
+                dataValue = JSON.stringify(dataValue);
+                // Message
+                console.log(editElm);
+                $(editElm.target).attr("data-value", dataValue);
+                swal({
+                  title: "تاریخچه بیمار با موفقیت ثبت شد",
+                  text: "",
+                  confirmButtonText: "تایید",
+                  type: "success",
+                });
+                $("#input-modal").modal("hide");
+              }
+            },
+            error: function (err) {
+              console.log(err);
+            },
+          });
+        });
+
+        $("input[type=checkbox].others").on("change", (e) => {
+          if (e.target.checked) {
+            tagify.setReadonly(false);
+          } else {
+            tagify.removeAllTags();
+            tagify.setReadonly(true);
+          }
+        });
+
+        //   tagify.addTags(["banana", "orange", "apple"])
+
+        // or add tags with pre-defined properties
+
+        //  tagify.addTags([{ value: "banana", color: "yellow" }, { value: "apple", color: "red" }, { value: "watermelon", color: "green" }])
+      });
+    </script>
+  </body>
+</html>

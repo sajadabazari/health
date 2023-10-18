@@ -1,0 +1,46 @@
+body.dark-mode .page-wrapper .page-body-wrapper .page-body .card:not(.email-body) .dataTables_wrapper table.dataTable thead th {
+    border-bottom: 2px #2a2a4a !important;
+  }
+
+  body.dark-mode tr.odd {
+    background-color: #2a2a4a !important;
+  }
+
+  body.dark-mode tr.even {
+    background-color: #26263e !important;
+  }
+
+  body.dark-mode table.dataTable.display tbody tr.even>.sorting_1,
+  body.dark-mode table.dataTable.order-column.stripe tbody tr.even>.sorting_1 {
+    background-color: #26263e !important;
+  }
+
+  body.dark-mode table.dataTable.display tbody tr.odd>.sorting_1,
+  body.dark-mode table.dataTable.order-column.stripe tbody tr.odd>.sorting_1 {
+    background-color: #2a2a4a !important;
+  }
+
+  body.dark-mode .dataTables_wrapper * {
+    color: gainsboro;
+  }
+
+  .dataTables_wrapper .dataTables_length {
+    float: right;
+  }
+
+  div.dataTables_wrapper div.dataTables_filter {
+    text-align: right;
+    float: left;
+  }
+
+  .dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 0 !important;
+  }
+
+  .dataTables_info {
+    float: right !important;
+  }
+
+  .dataTables_paginate.paging_simple_numbers {
+    float: left !important;
+  }

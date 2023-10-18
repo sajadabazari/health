@@ -1,0 +1,103 @@
+
+<style>
+    * {
+        direction: rtl;
+        font-family: 'tahoma';
+        font-size: 12px;
+    }
+
+    div {
+        margin: auto;
+        box-shadow: 0 0 5px #c1c1c1;
+        padding: 5px;
+        border-radius: 5px;
+    }
+
+    table {
+        width: 100%;
+        background-color: rgb(241, 250, 255);
+        color: rgb(51, 51, 51);
+    }
+    th {
+        font-weight: normal;
+        background-color: #0093bb;
+        color: white;
+    }
+
+    th,
+    td {
+        border-radius: 4px;
+        border: 1px solid rgb(199 199 199);
+        padding: 5px;
+    }
+    th{
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+
+    }
+</style>
+
+<%
+let faEducationRate = {
+    Doctora: 'دکترا',
+    Arshad: 'کارشناسی ارشد',
+    Karshenasi: 'کارشناسی',
+    Kardani: 'کاردانی',
+    Diplom: 'دیپلم',
+    ZDiplom: 'سیکل',
+}
+let ecoStatus = {
+    weak: 'ضعیف',
+    average: 'متوسط',
+    good: 'خوب',
+    great: 'عالی'
+}
+%>
+<div>
+    <table>
+        <tr>
+            <th>نام بیمار</th>
+            <th>کد ملی</th>
+            <th>تاریخ تولد</th>
+            <th>جنسیت</th>
+            <th>تحصیلات</th>
+            <th>شغل </th>
+            <th>وضعیت مالی</th>
+            <th>شماره همراه</th>
+            <th>شهر</th>
+            <th>نام واکسن</th>
+            <th>تزریق واکسن</th>
+            <th>نوع عارضه</th>
+            <th>وقوع عارضه</th>
+            <th>نوبت واکسن</th>
+            <th>سن</th>
+            <th>وزن(کیلوگرم)</th>
+            <th>قد</th>
+        </tr>
+
+        <%if(patients){patients.forEach((patient)=>{
+            patient.list.forEach((e_crf)=>{
+            %>
+        <tr>
+            <td><%=patient.user.fname + ' ' + patient.user.lname%></td>
+            <td><%=patient.user.nationalCode%></td>
+            <td><%=mToJalali(patient.birthday)%></td>
+            <td><%=(patient.gender=='man')?'مرد':'زن'%></td>
+            <td><%=faEducationRate[patient.educationRate]%></td>
+            <td><%=patient.jobStatus%></td>
+            <td><%=ecoStatus[patient.ecoStatus]%></td>
+            <td><%=patient.phone.cellphone%></td>
+            <td><%=patient.address.city%></td>
+            <td><%=e_crf.vaccineName%></td>
+            <td><%=mToJalali(e_crf.injectVaccineDate)%></td>
+            <td><%=e_crf.typeSideEffect%></td>
+            <td><%=mToJalali(e_crf.sideEffectDate)%></td>
+            <td><%=e_crf.vaccineDose%></td>
+            <td><%=e_crf.age%></td>
+            <td><%=e_crf.weight%></td>
+            <td><%=e_crf.height%></td>
+        </tr>
+        <%}) }) }%>
+
+    </table>
+</div>

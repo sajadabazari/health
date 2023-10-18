@@ -1,0 +1,158 @@
+<link rel="stylesheet" href="<%=process.env.SITEURL%>/css/report.css" />
+<%
+let faEducationRate = {
+    Doctora: 'دکترا',
+    Arshad: 'کارشناسی ارشد',
+    Karshenasi: 'کارشناسی',
+    Kardani: 'کاردانی',
+    Diplom: 'دیپلم',
+    ZDiplom: 'سیکل',
+    Ebtedaei: 'ابتدایی',
+    Bisavad: 'بیسواد',
+}
+let ecoStatus = {
+    weak: 'ضعیف',
+    average: 'متوسط',
+    good: 'خوب',
+    great: 'عالی'
+}
+let gender = {
+    man: 'مرد',
+    female: 'زن',
+    bigender: 'دوجنسیتی',
+    unknown: 'نامشخص'
+}
+let typeSideEffects = {
+    cTS_1:'تب',     
+   cTS_2:'بی اشتهایی',     
+   cTS_3:'استفراغ',     
+   cTS_4:'تهوع',     
+   cTS_5:'کهیر',     
+   cTS_6:'سردرد',     
+   cTS_7:'اسهال',     
+   cTS_8:'درد و کوفتگی بدن',     
+   cTS_9:'سرفه',     
+   cTS_10:'تنگی نفس',     
+   cTS_11:'درد مفاصل',     
+   cTS_12:'عوارض موضعی',     
+   cTS_13:' آبسه محل تزریق',     
+   cTS_14:'خس خس سینه',     
+   cTS_15:'تورم مفاصل',     
+   cTS_16:'کاهش سطح هوشیاری',     
+   cTS_17:'تشنج',     
+   cTS_18:'فوت', 
+}
+%>
+<div>
+    <table>
+        <tr>
+            <th>عنوان</th>
+            <th>مقدار</th>
+        </tr>
+
+        <%if(patients){patients.forEach((patient,k)=>{
+            
+            %>
+
+        <tr>
+            <td>نام و نام خانوادگی :</td>
+            <td><%=patient.user.fname + ' ' + patient.user.lname%></td>
+        </tr>
+        <tr>
+            <td>کد ملی :</td>
+            <td><%=patient.user.nationalCode%></td>
+        </tr>
+        <tr>
+            <td>تاریخ تولد :</td>
+            <td><%=mToJalali(patient.birthday)%></td>
+        </tr>
+        <tr>
+            <td> جنسیت :</td>
+            <td><%=gender[patient.gender]%></td>
+        </tr>
+        <tr>
+            <td> تحصیلات :</td>
+            <td><%=faEducationRate[patient.educationRate]%></td>
+        </tr>
+        <tr>
+            <td> شغل :</td>
+            <td><%=patient.jobStatus%></td>
+        </tr>
+        <tr>
+            <td> وضعیت اقتصادی :</td>
+            <td><%=ecoStatus[patient.ecoStatus]%></td>
+        </tr>
+        <tr>
+            <td> تلفن همراه :</td>
+            <td><%=patient.phone.cellphone%></td>
+        </tr>
+        <tr>
+            <td> شهر :</td>
+            <td><%=patient.user.city.name%></td>
+        </tr>
+        <tr>
+            <td colspan="2" style="color: white;background: #177fd7;font-weight: bold;">عوارض بیمار</td>
+        </tr>
+        <%patient.list.forEach((e_crf,key)=>{
+            let typeSideEffect = '';
+                _ts = [];
+                e_crf.typeSideEffect.typeSideEffectChecks.map((e)=>{
+                    _ts.push(typeSideEffects[e]);
+                })
+                typeSideEffect = _ts.join(', ') + ' ' + e_crf.typeSideEffect.otherTypeSideEffect;
+            %>
+
+        <tr>
+            <td colspan="2" style="color: white;background: #d76d17;font-weight: bold;"> نام واکسن :
+                <%=e_crf.vaccineName%></td>
+        </tr>
+        <tr>
+            <td> تاریخ تزریق واکسن :</td>
+            <td><%=mToJalali(e_crf.injectVaccineDate)%></td>
+        </tr>
+        <tr>
+            <td> نوع عارضه :</td>
+            <td><%=typeSideEffect%></td>
+        </tr>
+        <tr>
+            <td> تاریخ وقوع عارضه :</td>
+            <td><%=mToJalali(e_crf.sideEffectDate)%></td>
+        </tr>
+        <tr>
+            <td> نوبت واکسن :</td>
+            <td><%=e_crf.vaccineDose%></td>
+        </tr>
+        <tr>
+            <td> سن :</td>
+            <td><%=e_crf.age%></td>
+        </tr>
+        <tr>
+            <td> وزن(کیلوگرم) :</td>
+            <td><%=e_crf.weight%></td>
+        </tr>
+        <tr>
+            <td> قد :</td>
+            <td><%=e_crf.height%></td>
+        </tr>
+        <tr>
+            <td> BMI :</td>
+            <td><%=e_crf.BMI%></td>
+        </tr>
+        <tr>
+            <td> آیا مصرف سیگار دارد ؟ :</td>
+            <td><%=(e_crf.smoking)?'بله':'خیر'%></td>
+        </tr>
+        <%if(patient.gender == 'female'){%>
+        <tr>
+            <td> آیا باردار است ؟ :</td>
+            <td><%=(e_crf.pregnancyStatus)?'بله':'خیر'%></td>
+        </tr>
+        <tr>
+            <td> آیا در زمان تزریق واکسن عادت ماهیانه بوده است ؟ :</td>
+            <td><%=(e_crf.brestFeedingStatus)?'بله':'خیر'%></td>
+        </tr>
+        <%
+    }  }) }) }%>
+
+    </table>
+</div>

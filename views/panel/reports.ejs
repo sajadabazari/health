@@ -1,0 +1,1077 @@
+<!doctype html>
+<html lang="fa-IR" dir="rtl">
+
+<%- include("layout/head",{title:'پنل سامانه سلامت'}) %>
+<style>
+    .table td {
+        padding: 0.2rem;
+        padding-right: 15px;
+    }
+
+    .tagify+input,
+    .tagify+textarea {
+        position: initial !important;
+        left: 0 !important;
+        transform: none !important;
+        width: 100%;
+        margin-top: .2em;
+        min-height: 11ch;
+        background: powderblue;
+        font-family: "Fira Code";
+    }
+
+    tag {
+        background: white;
+    }
+
+    .tagify {
+        border: 1px solid #7676766b;
+        border-radius: 5px;
+        padding-right: 10px !important;
+        ;
+        width: 100%;
+    }
+
+    .deleteModal .modal-header {
+        background-color: rgb(169 0 0 / 94%);
+        border-bottom: 1px solid rgb(126 0 0) !important;
+        color: white;
+    }
+
+    .deleteModal .modal-body {
+        background-color: rgb(159 0 0 / 94%);
+        color: white;
+    }
+
+    .deleteModal .modal-footer {
+        background-color: rgb(169 0 0 / 94%);
+        border-top: 1px solid rgb(126 0 0) !important;
+        color: white;
+    }
+
+
+
+    .loader {
+        position: fixed;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 999999;
+        top: 20%;
+        left: 45%;
+        transform: translate(-50%, -50%);
+    }
+
+    .loader span {
+        position: relative;
+        width: 120px;
+        height: 120px;
+        background-color: #eaeef0;
+        border: 6px solid #eaeef0;
+        border-radius: 50%;
+        overflow: hidden;
+    }
+
+    .loader span:before {
+        content: "";
+        position: absolute;
+        inset: 30px;
+        background-color: #1a1a3c;
+        border: 2px solid #eaeef0;
+        border-radius: 50%;
+        z-index: 1;
+    }
+
+    .loader span i {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(#42abff, #ff4f8b, #ffeb4b);
+        border-radius: 50%;
+        filter: blur(5px);
+        animation: animate 1s linear infinite;
+    }
+
+    @keyframes animate {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+
+    .text {
+        position: absolute;
+        width: 100%;
+        left: 0%;
+        top: 120px;
+        display: block;
+        font-weight: normal;
+        font-size: 1.1em;
+    }
+    hr {
+        border-top: 1px solid #cbcbcb;
+    }
+    .gradient-border{
+        border-bottom: 3px solid transparent !important;
+        border-top: 3px solid transparent;
+        border-image-source: linear-gradient(45deg, #00e3ff, #c518d5, #006c55, #1fddff,#ff05ab);
+        border-image-slice: 1;
+    }
+    .gradient-border2{
+      border-bottom: 3px solid transparent !important;
+      border-top: 3px solid transparent;
+      border-image-source: linear-gradient(45deg, #ff7c00, #ff1fa5, #00ffc9, #706eff,#00e3ff);
+      border-image-slice: 1;
+    }
+    .label-violet {
+    background: #d000cd;
+    color: #fff;
+    }       
+    .label-greenyellow {
+    background: greenyellow;
+    color: #fff;
+    }       
+    .label-sky {
+    background: #00e0eb;
+    color: #fff;
+    }       
+</style>
+<link rel="stylesheet" href="/assets/plugins/persian_dpicker/css/persianDatepicker-default.css">
+
+<link rel="stylesheet" href="/css/tagify.css">
+<link rel="stylesheet" href="/css/toastify.min.css">
+
+
+<body class="app sidebar-mini rtl light-mode">
+    <%- include('layout/switcher') %>
+    <!-- GLOBAL-LOADER -->
+    <div id="global-loader">
+        <img src="/assets/images/loader.svg" class="loader-img" alt="Loader">
+    </div>
+    <!-- /GLOBAL-LOADER -->
+
+    <!-- PAGE -->
+    <div class="page">
+        <div class="page-main">
+
+            <!-- app-Header -->
+            <%-include('layout/header',{login})%>
+            <%-include('layout/sidebar')%>
+            <!-- /app-Header -->
+
+            <!--==========================Delete Modal=================================-->
+            <!-- MODAL Effects -->
+            <div class="modal fade" id="modaldemo8">
+                <div class="modal-dialog modal-dialog-centered text-center" role="document">
+                    <div class="modal-content modal-content-demo">
+                        <div class="modal-header">
+                            <h6 class="modal-title">حذف گزارش</h6><button aria-label="Close" class="btn-close"
+                                data-bs-dismiss="modal"><span aria-hidden="true ">&times;</span></button>
+                        </div>
+                        <div class="modal-body">
+                            آیا با حذف گزارش موافق هستید؟
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-light deleteReport">تایید</button> <button class="btn btn-danger"
+                                data-bs-dismiss="modal">لغو</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <style>
+                .modal-header {
+                    background-color: rgb(169 0 0 / 94%);
+                    border-bottom: 1px solid rgb(126 0 0) !important;
+                    color: white;
+                }
+
+                .modal-body {
+                    background-color: rgb(159 0 0 / 94%);
+                    color: white;
+                }
+
+                .modal-footer {
+                    background-color: rgb(169 0 0 / 94%);
+                    border-top: 1px solid rgb(126 0 0) !important;
+                    color: white;
+                }
+            </style>
+            <!--==========================Delete Modal=================================-->
+
+
+            <!----=====================================APP-CONTENT OPEN =========================================-->
+            <div class="main-content app-content mt-0">
+                <div class="side-app">
+
+                    <!-- CONTAINER -->
+                    <div class="main-container container-fluid">
+                        <br />
+
+                        <!-- ROW OPEN -->
+
+                        <div class="row row-cards">
+                            <div class="col-lg-12 col-xl-12">
+                                <div class="card">
+                                    <div class="card-header position-relative bg bg-primary text-white">
+                                        گزارش پیشرفته
+                                        <div class="material-switch pull-right position-absolute" style="left:25px;top:40%">
+                                            <input id="advancedReport" name="advancedReport" type="checkbox" />
+                                            <label for="advancedReport" class="label-default"></label>
+                                        </div>
+                                    </div>
+                                    <div class="card-body" id="advanceReportBody">
+                                        <div class="form-row" >
+                                          <div class="col-xl-2">
+                                            <div class="mt-2">
+                                              جنسیت
+                                              <div class="material-switch pull-right m-2">
+                                                <input id="genderCheck" name="genderCheck" type="checkbox" />
+                                                <label for="genderCheck" class="label-danger"></label>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-xl-4">
+                                            <select class="form-control select2" id="gender" disabled required data-placeholder="انتخاب جنسیت" multiple>
+                                              <option value="man">
+                                                مرد
+                                              </option>
+                                              <option value="female">
+                                                زن
+                                              </option>
+                                              <option value="bigender">
+                                                دوجنسیتی
+                                              </option>
+                                              <option value="unknown">
+                                                نامشخص
+                                              </option>
+                                            </select>
+                                          </div>
+     <!--                                   <div class="col-xl-2">
+                                            <div class="mt-2">
+                                              تحصیلات
+                                              <div class="material-switch pull-right m-2">
+                                                <input id="educationRateCheck" name="educationRateCheck" type="checkbox" />
+                                                <label for="educationRateCheck" class="label-success"></label>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-xl-4">
+                                            <select class="form-control select2" disabled id="educationRate" required data-placeholder="انتخاب تحصیلات" multiple>
+                                              <option value="Doctora">
+                                                دکترا
+                                              </option>
+                                              <option value="Arshad">
+                                                کارشناسی ارشد
+                                              </option>
+                                              <option value="Karshenasi">
+                                                کارشناسی
+                                              </option>
+                                              <option value="Kardani">
+                                                کاردانی
+                                              </option>
+                                              <option value="Diplom">
+                                                دیپلم
+                                              </option>
+                                              <option value="ZDiplom">
+                                                سیکل
+                                              </option>
+                                              <option value="Ebtedaei">
+                                                ابتدایی
+                                              </option>
+                                              <option value="Bisavad">
+                                                بیسواد
+                                              </option>
+                                            </select>
+                                          </div>-->  
+                                        </div>
+                                        <!--<hr>
+                                        <div class="form-row">
+                                          <div class="col-xl-2">
+                                            <div class="mt-2">
+                                              وضعیت اقتصادی
+                                              <div class="material-switch pull-right m-2">
+                                                <input id="ecoStatusCheck" name="ecoStatusCheck" type="checkbox" />
+                                                <label for="ecoStatusCheck" class="label-info"></label>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-xl-10">
+                                            <select class="form-control select2" id="ecoStatus" disabled type="text" required data-placeholder="انتخاب وضعیت اقتصادی" multiple>
+                                              <option value="weak">
+                                                ضعیف
+                                              </option>
+                                              <option value="average">
+                                                متوسط
+                                              </option>
+                                              <option value="good">
+                                                خوب
+                                              </option>
+                                              <option value="great">
+                                                عالی
+                                              </option>
+                                            </select>
+                                          </div> 
+                                        </div>-->
+
+                                        <br>
+                                        <div class="p-3 gradient-border">
+                                          تاریخچه بیمار
+                                        </div>
+                                        <br />
+                                        <div class="form-row">
+                                          <div class="col-xl-2">
+                                            <div class="mt-2">
+                                              بیماری مزمن
+                                              <div class="material-switch pull-right m-2">
+                                                <input id="chronicDiseasesCheck" name="chronicDiseasesCheck" type="checkbox" />
+                                                <label for="chronicDiseasesCheck" class="label-greenyellow"></label>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-xl-10">
+                                            <select class="form-control select2" id="chronicDiseases" disabled data-placeholder="انتخاب بیماری" multiple>
+                                              <option value="cD_1">
+                                                بیماری کبدی
+                                              </option>
+                                              <option value="cD_2">
+                                                بیماری کلیوی
+                                              </option>
+                                              <option value="cD_3">
+                                                نقص سیستم ایمنی
+                                              </option>
+                                              <option value="cD_4">
+                                                فشار خون
+                                              </option>
+                                              <option value="cD_5">
+                                                بیماری تنفسی یا آسم
+                                              </option>
+                                              <option value="cD_6">
+                                                بیماری قلبی
+                                              </option>
+                                              <option value="cD_7">
+                                                دیابت
+                                              </option>
+                                              <option value="others">
+                                                سایر
+                                              </option>
+                                            </select>
+                                          </div>
+                                        </div>
+                                        <hr>
+                                        <div class="form-row" >
+                                          <div class="col-xl-2">
+                                            <div class="mt-3">
+                                              سابقه ابتلا به کرونا
+                                              <div class="material-switch pull-right m-2">
+                                                <input id="testResultCheck" name="testResultCheck" type="checkbox" />
+                                                <label for="testResultCheck" class="label-violet"></label>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-xl-4">
+                                            <label class="custom-control custom-radio"
+                                                style="display: inline-block;cursor: pointer;">
+                                                <input type="radio" class="custom-control-input" name="testResult" disabled value="yes"
+                                                    checked>
+                                                <span class="custom-control-label">بله</span>
+                                            </label>
+                                            <label class="custom-control custom-radio"
+                                                style="display: inline-block;cursor: pointer;">
+                                                <input type="radio" class="custom-control-input" name="testResult" disabled value="no">
+                                                <span class="custom-control-label">خیر</span>
+                                            </label>
+                                          </div>
+                                          <div class="col-xl-2">
+                                            <div class="mt-2">
+                                               واکنش به واکسن
+                                              <div class="material-switch pull-right m-2">
+                                                <input id="allergyCheck" name="allergyCheck" type="checkbox" />
+                                                <label for="allergyCheck" class="label-sky"></label>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-xl-4">
+                                            <label class="custom-control custom-radio"
+                                                style="display: inline-block;cursor: pointer;">
+                                                <input type="radio" class="custom-control-input" name="allergy" disabled value="yes"
+                                                    checked>
+                                                <span class="custom-control-label">بله</span>
+                                            </label>
+                                            <label class="custom-control custom-radio"
+                                                style="display: inline-block;cursor: pointer;">
+                                                <input type="radio" class="custom-control-input" name="allergy" disabled value="no">
+                                                <span class="custom-control-label">خیر</span>
+                                            </label>
+                                          </div>
+                                        </div>
+                                        <br>
+                                        <div class="p-3 gradient-border2">
+                                          عوارض بیمار
+                                        </div>
+                                        <br />
+                                          <div class="form-row">
+                                            <div class="col-xl-2">
+                                              <div class="mt-2">
+                                                نوع واکسن
+                                                <div class="material-switch pull-right m-2">
+                                                  <input id="vaccineNameCheck" name="vaccineNameCheck" type="checkbox" />
+                                                  <label for="vaccineNameCheck" class="label-warning"></label>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="col-xl-10">
+                                              <select class="form-control select2" disabled id="vaccineName" required data-placeholder="انتخاب نوع واکسن" multiple>
+                                                <% if(vaccines){vaccines.forEach((vaccine)=>{ %>
+                                                <option value="<%=vaccine.name%>">
+                                                  <%=vaccine.name%>
+                                                </option>
+                                                <% }) } %>
+                                              </select>
+                                            </div>
+                                          </div>
+                                          <hr>
+                                          <div class="form-row">
+                                            <div class="col-xl-2">
+                                              <div class="mt-2">
+                                                 نوع عارضه
+                                                <div class="material-switch pull-right m-2">
+                                                  <input id="typeSideEffectCheck" name="typeSideEffectCheck" type="checkbox" />
+                                                  <label for="typeSideEffectCheck" class="label-success"></label>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="col-xl-10">
+                                              <select class="form-control select2" id="typeSideEffect" disabled data-placeholder="انتخاب عارضه" multiple>
+                                                <option value="cTS_1">
+                                                  تب 
+                                                </option>
+                                                <option value="cTS_2">
+                                                  بی اشتهایی
+                                                </option>
+                                                <option value="cTS_3">
+                                                  استفراغ
+                                                </option>
+                                                <option value="cTS_4">
+                                                  تهوع
+                                                </option>
+                                                <option value="cTS_5">
+                                                  کهیر
+                                                </option>
+                                                <option value="cTS_6">
+                                                  سردرد
+                                                </option>
+                                                <option value="cTS_7">
+                                                  اسهال
+                                                </option>
+                                                <option value="cTS_8">
+                                                  درد و کوفتگی بدن
+                                                </option>
+                                                <option value="cTS_9">
+                                                   سرفه  
+                                                </option>
+                                                <option value="cTS_10">
+                                                  تنگی نفس
+                                                </option>
+                                                <option value="cTS_11">
+                                                  درد مفاصل
+                                                </option>
+                                                <option value="cTS_12">
+                                                  عوارض موضعی
+                                                </option>
+                                                <option value="cTS_13">
+                                                  آبسه محل تزریق
+                                                </option>
+                                                <option value="cTS_14">
+                                                  خس خس سینه
+                                                </option>
+                                                <option value="cTS_15">
+                                                  تورم مفاصل
+                                                </option>
+                                                <option value="cTS_16">
+                                                  کاهش سطح هوشیاری
+                                                </option>
+                                                <option value="cTS_17">
+                                                  تشنج  
+                                                </option>
+                                                <option value="cTS_18">
+                                                  فوت بیمار
+                                                </option>
+                                                <option value="others">
+                                                  سایر
+                                                </option>
+                                              </select>
+                                            </div>
+                                          </div>
+                                          <hr>
+                                          <div class="form-row">
+                                            <div class="col-xl-2">
+                                              <div class="mt-2">
+                                                 نوبت واکسن
+                                                <div class="material-switch pull-right m-2">
+                                                  <input id="vaccineDoseCheck" name="vaccineDoseCheck" type="checkbox" />
+                                                  <label for="vaccineDoseCheck" class="label-info"></label>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="col-xl-4">
+                                              <input type="number" class="form-control" disabled id="vaccineDose" min="1" max="4"/>
+                                            </div>
+                                            <div class="col-xl-2">
+                                              <div class="mt-2">
+                                                 سن 
+                                                <div class="material-switch pull-right m-2">
+                                                  <input id="ageCheck" name="ageCheck" type="checkbox" />
+                                                  <label for="ageCheck" class="label-greenyellow"></label>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="col-xl-4">
+                                              <div class="form-row">
+                                                <div class="col-xl-1">
+                                                  از
+                                                </div>
+                                                <div class="col-xl-5">
+                                                <input type="number" class="form-control" disabled id="minAge" min="1" max="4"/>
+                                                </div>
+                                                <div class="col-xl-1">
+                                                   تا
+                                                </div>
+                                                <div class="col-xl-5">
+                                                  <input type="number" class="form-control" disabled id="maxAge" min="1" max="4"/>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <hr/>
+                                          <div class="form-row">
+                                            <!--<div class="col-xl-2">
+                                              <div class="mt-2">
+                                                 قد 
+                                                <div class="material-switch pull-right m-2">
+                                                  <input id="heightCheck" name="heightCheck" type="checkbox" />
+                                                  <label for="heightCheck" class="label-danger"></label>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="col-xl-4">
+                                              <div class="form-row">
+                                                <div class="col-xl-1">
+                                                  از
+                                                </div>
+                                                <div class="col-xl-5">
+                                                <input type="number" class="form-control" disabled id="minHeight" min="1" max="4"/>
+                                                </div>
+                                                <div class="col-xl-1">
+                                                   تا
+                                                </div>
+                                                <div class="col-xl-5">
+                                                  <input type="number" class="form-control" disabled id="maxHeight" min="1" max="4"/>
+                                                </div>
+                                              </div>
+                                            </div>-->
+                                            <div class="col-xl-2">
+                                              <div class="mt-2">
+                                                 وزن 
+                                                <div class="material-switch pull-right m-2">
+                                                  <input id="weightCheck" name="weightCheck" type="checkbox" />
+                                                  <label for="weightCheck" class="label-sky"></label>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="col-xl-10">
+                                              <div class="form-row">
+                                                <div class="col-xl-1">
+                                                  از
+                                                </div>
+                                                <div class="col-xl-5">
+                                                <input type="number" class="form-control" disabled id="minWeight" min="1" max="4"/>
+                                                </div>
+                                                <div class="col-xl-1">
+                                                   تا
+                                                </div>
+                                                <div class="col-xl-5">
+                                                  <input type="number" class="form-control" disabled id="maxWeight" min="1" max="4"/>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <hr/>
+                                          <div class="form-row">
+                                            <div class="col-xl-2">
+                                              <div class="mt-2">
+                                                 BMI 
+                                                <div class="material-switch pull-right m-2">
+                                                  <input id="bmiCheck" name="bmiCheck" type="checkbox" />
+                                                  <label for="bmiCheck" class="label-violet"></label>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="col-xl-4">
+                                              <div class="form-row">
+                                                <div class="col-xl-1">
+                                                  از
+                                                </div>
+                                                <div class="col-xl-5">
+                                                <input type="number" class="form-control" disabled id="minBmi" min="1" max="4"/>
+                                                </div>
+                                                <div class="col-xl-1">
+                                                   تا
+                                                </div>
+                                                <div class="col-xl-5">
+                                                  <input type="number" class="form-control" disabled id="maxBmi" min="1" max="4"/>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="col-xl-2">
+                                              <div class="mt-3">
+                                                  مصرف سیگار 
+                                                <div class="material-switch pull-right m-2">
+                                                  <input id="smokingCheck" name="smokingCheck" type="checkbox" />
+                                                  <label for="smokingCheck" class="label-success"></label>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="col-xl-4">
+                                              <label class="custom-control custom-radio"
+                                                  style="display: inline-block;cursor: pointer;">
+                                                  <input type="radio" class="custom-control-input" name="smoking" disabled value="yes"
+                                                      checked>
+                                                  <span class="custom-control-label">بله</span>
+                                              </label>
+                                              <label class="custom-control custom-radio"
+                                                  style="display: inline-block;cursor: pointer;">
+                                                  <input type="radio" class="custom-control-input" name="smoking" disabled value="no">
+                                                  <span class="custom-control-label">خیر</span>
+                                              </label>
+                                            </div>
+                                          </div>
+                                          <hr/>
+                                          <div class="form-row" >
+                                            <div class="col-xl-2">
+                                              <div class="mt-3">
+                                                  عادت ماهیانه
+                                                <div class="material-switch pull-right m-2">
+                                                  <input id="brestFeedingStatusCheck" name="brestFeedingStatusCheck" type="checkbox" />
+                                                  <label for="brestFeedingStatusCheck" class="label-info"></label>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="col-xl-4">
+                                              <label class="custom-control custom-radio"
+                                                  style="display: inline-block;cursor: pointer;">
+                                                  <input type="radio" class="custom-control-input" name="brestFeedingStatus" disabled value="yes"
+                                                      checked>
+                                                  <span class="custom-control-label">بله</span>
+                                              </label>
+                                              <label class="custom-control custom-radio"
+                                                  style="display: inline-block;cursor: pointer;">
+                                                  <input type="radio" class="custom-control-input" name="brestFeedingStatus" disabled value="no">
+                                                  <span class="custom-control-label">خیر</span>
+                                              </label>
+                                            </div>
+                                            <div class="col-xl-2">
+                                              <div class="mt-2">
+                                                بارداری
+                                                <div class="material-switch pull-right m-2">
+                                                  <input id="pregnancyStatusCheck" name="pregnancyStatusCheck" type="checkbox" />
+                                                  <label for="pregnancyStatusCheck" class="label-warning"></label>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="col-xl-4">
+                                              <label class="custom-control custom-radio"
+                                                  style="display: inline-block;cursor: pointer;">
+                                                  <input type="radio" class="custom-control-input" name="pregnancyStatus" disabled value="yes"
+                                                      checked>
+                                                  <span class="custom-control-label">بله</span>
+                                              </label>
+                                              <label class="custom-control custom-radio"
+                                                  style="display: inline-block;cursor: pointer;">
+                                                  <input type="radio" class="custom-control-input" name="pregnancyStatus" disabled value="no">
+                                                  <span class="custom-control-label">خیر</span>
+                                              </label>
+                                            </div>
+                                          </div>
+                                        </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-xl-5 mb-4">
+                                        <label for="injectVaccineDate">
+                                            تاریخ وقوع عارضه
+                                        </label>
+                                        <input type="text" class="form-control" id="reportFrom" value=""
+                                            placeholder="از" required>
+                                    </div>
+                                    <div class="col-xl-5 mb-3">
+                                        <label for="sideEffectDate">/</label>
+                                        <input type="text" class="form-control" id="reportTo" placeholder="تا" value=""
+                                            required>
+                                    </div>
+                                    <div class="col-xl-2 mb-3">
+                                        <button class="btn btn-primary" style="margin-top: 29px;width:100%"
+                                            id="getReport">تهیه گزارش</button>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header">
+                                        لیست گزارشات بیماران
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="e-table px-5 pb-5">
+                                            <div class="table-responsive table-lg">
+                                                <table class="table border-top table-bordered mb-0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>تاریخ تهیه گزارش</th>
+                                                            <th>لینک دانلود</th>
+                                                            <th style="width:5% ;">حذف</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="reportList">
+                                                        <% if(reports){ reports.forEach((report,key)=>{
+                                                                            %>
+
+                                                        <tr>
+                                                            <td class="text-nowrap align-middle">
+                                                                <%=mToJalaliTFormat(report.createdAt)%>
+                                                            </td>
+                                                            <td class="text-nowrap align-middle">
+                                                                <i class="fa fa-file-pdf-o"
+                                                                    style="font-size: 18px;"></i>
+                                                                <a href="<%=process.env.SITEURL%>/<%=report.filePath%>"
+                                                                    target="_blank">دانلود فایل</a>
+                                                            </td>
+                                                            <td class="text-nowrap align-middle">
+                                                                <a class="btn btn-sm btn-danger badge modal-effect deleteModal"
+                                                                    data-bs-effect="effect-super-scaled"
+                                                                    data-id="<%=report._id.toString()%>"
+                                                                    data-bs-toggle="modal" href="#modaldemo8"
+                                                                    type="button"><i class="fa fa-trash"></i></a>
+                                                            </td>
+                                                        </tr>
+                                                        <% }); } %>
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-5">
+                                    <ul class="pagination float-end">
+                                        <% let disabled=(page> 1)?'':'disabled';
+                                                            let beforePage = page - 1;
+                                                            %>
+                                        <li class="page-item page-prev <%=disabled%>">
+                                            <a class="page-link"
+                                                href="<%=process.env.SITEURL%>/panel/reports/<%=beforePage%>">قبلی</a>
+                                        </li>
+                                        <% let before=(page>2)?(page-2):1;
+                                                                for(let i=before;i<=page-1;i++){ %>
+                                        <li class="page-item"><a class="page-link"
+                                                href="<%=process.env.SITEURL%>/panel/reports/<%=i%>">
+                                                <%=i%>
+                                            </a></li>
+                                        <% }%>
+                                        <li class="page-item active"><a class="page-link" href="javascript:void(0)">
+                                                <%=page%>
+                                            </a></li>
+
+                                        <% let
+                                                                            toPage=((page+rowsCount)<=endPage)?(page+rowsCount):endPage;
+                                                                            for(let i=page+1;i<=toPage;i++){ %>
+                                        <li class="page-item"><a class="page-link"
+                                                href="<%=process.env.SITEURL%>/panel/reports/<%=i%>">
+                                                <%=i%>
+                                            </a></li>
+                                        <% }%>
+                                        <% let dis=(page==endPage)?'disabled':'';
+                                           let afterPage=page + 1; %>
+                                        <li class="page-item page-next  <%=dis%>">
+                                            <a class="page-link"
+                                                href="<%=process.env.SITEURL%>/panel/reports/<%=afterPage%>">بعدی</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- COL-END -->
+                        </div>
+                        <!-- ROW CLOSED -->
+                    </div>
+                    <!-- CONTAINER CLOSED -->
+                </div>
+            </div>
+            <!--=============================================== APP-CONTENT CLOSE ==================================-->
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <div class="loader" id="loader" style="display: none;">
+                <div class="text">
+                    <p>در حال تهیه گزارش </p>
+                </div>
+                <span><i></i></span>
+            </div>
+        </footer>
+        <!-- FOOTER END -->
+
+    </div>
+
+    <!-- BACK-TO-TOP -->
+    <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
+
+    <%- include('layout/script.ejs') %>
+    <!-- SWEET-ALERT JS -->
+    <script src="/assets/plugins/persian_dpicker/js/persianDatepicker.min.js"></script>
+
+    <script src="/assets/plugins/sweet-alert/sweetalert.min.js"></script>
+    <script src="/js/tagify.min.js"></script>
+    <script src="/js/toastify-js.js"></script>
+    <script src="/js/jalali-moment.browser.js"></script>
+<script src="/js/validate.js"></script>    <script>
+        $(document).ready(() => {
+            $('.select2').select2();
+            $("#reportFrom").persianDatepicker({
+                formatDate: "YYYY/0M/0D"
+            });
+            $("#reportTo").persianDatepicker({
+                formatDate: "YYYY/0M/0D",
+            });
+            let alert = `<%=reportAction%>`;
+            if (alert != null && alert == 'success-delete') {
+                Toastify({
+                    text: "گزارش با موفقیت حذف شد!",
+                    duration: 3000,
+                    newWindow: true,
+                    close: true,
+                    gravity: "bottom", // `top` or `bottom`
+                    position: "left", // `left`, `center` or `right`
+                    stopOnFocus: true, // Prevents dismissing of toast on hover
+                    style: {
+                        background: "linear-gradient(to right, rgb(4 126 36), rgb(0 223 110))",
+                    },
+                }).showToast();
+            }
+            $(document).on('click', '.deleteModal', (e) => {
+                $('.deleteReport').attr('data-id', $(e.target).closest('a').attr('data-id'));
+            })
+            $('.deleteReport').on('click', (e) => {
+                let _id = $(e.target).attr('data-id');
+                window.location.href = `<%=process.env.SITEURL%>/panel/report/delete/${_id}`;
+            })
+            $('#userSearch').on('click', () => {
+                let searchInput = $('#searchInput').val().trim();
+                window.location.href = `<%=process.env.SITEURL%>/panel/em/patient/search/${searchInput}`;
+            })
+            let inputElm = document.querySelector('input[name="tags"]');
+            let tagify = new Tagify(inputElm);
+            let editElm = null;
+            $('._pHistory').on('click', (e) => {
+                editElm = e;
+                tagify.removeAllTags();
+                $('#regHInfo').attr('data-id', $(e.target).closest('a').attr('data-id'));
+                let _historyData = $(e.target).closest('a').attr('data-value');
+                _historyData = JSON.parse(_historyData);
+                $('input[name="allergy"][value="yes"]').prop('checked', _historyData.allergy);
+                $('input[name="allergy"][value="no"]').prop('checked', !_historyData.allergy);
+                $('input[name="testResult"][value="yes"]').prop('checked', _historyData.testResult);;
+                $('input[name="testResult"][value="no"]').prop('checked', !_historyData.testResult);;
+                tagify.addTags(_historyData.chronicDiseases)
+            });
+
+
+            $('#getReport').on('click', (e) => {
+                let reportFrom = $('#reportFrom').val();
+                let reportTo = $('#reportTo').val();
+                let reportOptions = {}
+              let genderCheck = $('#genderCheck').is(':checked');
+           //   let educationRateCheck = $('#educationRateCheck').is(':checked');
+          //    let ecoStatusCheck = $('#ecoStatusCheck').is(':checked');
+              let chronicDiseasesCheck = $('#chronicDiseasesCheck').is(':checked');
+              let testResultCheck = $('#testResultCheck').is(':checked');
+              let allergyCheck = $('#allergyCheck').is(':checked');
+              let vaccineNameCheck = $('#vaccineNameCheck').is(':checked');
+              let typeSideEffectCheck = $('#typeSideEffectCheck').is(':checked');
+              let vaccineDoseCheck = $('#vaccineDoseCheck').is(':checked');
+          //    let ageCheck = $('#ageCheck').is(':checked');
+              let weightCheck = $('#weightCheck').is(':checked');
+              let heightCheck = $('#heightCheck').is(':checked');
+              let bmiCheck = $('#bmiCheck').is(':checked');
+              let smokingCheck = $('#smokingCheck').is(':checked');
+              let pregnancyStatusCheck = $('#pregnancyStatusCheck').is(':checked');
+              let brestFeedingStatusCheck = $('#brestFeedingStatusCheck').is(':checked');
+              // fields values
+              let gender = $('#gender').val();
+/*               let educationRate = $('#educationRate').val();
+              let ecoStatus = $('#ecoStatus').val(); */
+              let chronicDiseases = $('#chronicDiseases').val();
+              let testResult = $('input[name="testResult"]').val();
+              let allergy = $('input[name="allergy"]').val();
+              let vaccineName = $('#vaccineName').val();
+              let typeSideEffect = $('#typeSideEffect').val();
+              let vaccineDose = $('#vaccineDose').val();
+/*               let minAge = $('#minAge').val();
+              let maxAge = $('#maxAge').val(); */
+              let minWeight= $('#minWeight').val();
+              let maxWeight = $('#maxWeight').val();
+              let minHeight = $('#minHeight').val();
+              let maxHeight = $('#maxHeight').val();
+              let minBmi = $('#minBmi').val();
+              let maxBmi = $('#maxBmi').val();
+              let smoking = $('input[name="smoking"]').val();
+              let pregnancyStatus = $('input[name="pregnancyStatus"]').val();
+              let brestFeedingStatus = $('input[name="brestFeedingStatus"]').val();
+              //////Check for add option
+              
+
+               if(genderCheck){
+                reportOptions.gender = gender;
+              }
+/*                if(educationRateCheck){
+                reportOptions.educationRate = educationRate;
+              }
+               if(ecoStatusCheck){
+                reportOptions.ecoStatus = ecoStatus;
+              } */
+               if(chronicDiseasesCheck){
+                reportOptions.diseasesChecks = chronicDiseases;
+              }
+               if(testResultCheck){
+                reportOptions.testResult = {value:(testResult=='yes')? true:false};
+              }
+               if(allergyCheck){
+                reportOptions.allergy = {value:(allergy=='yes')? true:false};
+              }
+               if(vaccineNameCheck){
+                reportOptions.vaccineName = vaccineName;
+              }
+               if(typeSideEffectCheck){
+                reportOptions.typeSideEffect = typeSideEffect;
+              } 
+               if(vaccineDoseCheck){
+                reportOptions.vaccineDose = parseInt(vaccineDose);
+              }
+/*                if(ageCheck){
+                reportOptions.age = {min:parseInt(minAge),max:parseInt(maxAge)}
+              } */
+               if(weightCheck){
+                reportOptions.weight = {min:parseInt(minWeight),max:parseInt(maxWeight)}
+              }
+               if(heightCheck){
+                reportOptions.height = {min:parseInt(minHeight),max:parseInt(maxHeight)}
+              }
+               if(bmiCheck){
+                reportOptions.bmi = {min:parseFloat(minBmi),max:parseFloat(maxBmi)}
+              }
+               if(smokingCheck){
+                reportOptions.smoking = {value:(smoking=='yes')? true:false}
+              }
+               if(pregnancyStatusCheck){
+                reportOptions.pregnancyStatus = {value:(pregnancyStatus=='yes')? true:false}
+              }
+               if(brestFeedingStatusCheck){
+                reportOptions.brestFeedingStatus = {value:(brestFeedingStatus=='yes')? true:false}
+              }
+                let data = JSON.stringify({
+                    reportFrom, reportTo,reportOptions
+                });
+
+                $.ajax({
+                    url: `<%=process.env.SITEURL%>/panel/getReport`,
+                    type: 'post',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: data,
+                    beforeSend: () => {
+                        $('#loader').fadeIn(500);
+                    },
+                    success: (res) => {
+                        $('#loader').fadeOut(500);
+                        if (res.statusCode === 200) {
+                            $('#reportList').prepend(`
+                            <tr>
+                                <td class="text-nowrap align-middle">
+                                    ${moment(res.report.createdAt).locale('fa').format('HH:mm YYYY/MM/DD')}
+                                </td>
+                                <td class="text-nowrap align-middle">
+                                    <i class="fa fa-file-pdf-o" style="font-size: 18px;"></i>
+                                    <a href="<%=process.env.SITEURL%>/${res.report.filePath}%>"
+                                        target="_blank">دانلود فایل</a>
+                                </td>
+                                <td class="text-nowrap align-middle">
+                                    <a class="btn btn-sm btn-danger badge modal-effect deleteModal"
+                                        data-bs-effect="effect-super-scaled"
+                                        data-id="${res.report._id.toString()}"
+                                        data-bs-toggle="modal" href="#modaldemo8"
+                                        type="button"><i class="fa fa-trash"></i></a>
+                                </td>
+                            </tr>
+                            `);
+                            Toastify({
+                                text: "گزارش با موفقیت تهیه شد.",
+                                duration: 3000,
+                                newWindow: true,
+                                close: true,
+                                gravity: "bottom", // `top` or `bottom`
+                                position: "left", // `left`, `center` or `right`
+                                stopOnFocus: true, // Prevents dismissing of toast on hover
+                                style: {
+                                    background: "linear-gradient(to right, rgb(4 126 36), rgb(0 223 110))",
+                                },
+                            }).showToast();
+                        }
+                    },
+                    error: function (err) {
+                        $('#loader').fadeOut(500);
+                        console.log(err)
+                    }
+                });
+            });
+
+        // Advanced Report =================================================================
+        
+            $('#advancedReport').on('change',(e)=>{
+                if($(e.target).is(':checked')){
+                    $('#advanceReportBody').slideDown();
+                }else{
+                    $('#advanceReportBody').slideUp();
+                }
+            })
+            $('#educationRateCheck,#genderCheck,#ecoStatusCheck,#vaccineNameCheck,#chronicDiseasesCheck,#typeSideEffectCheck,#vaccineDoseCheck').on('change',(e)=>{
+                let elm = e.target.name.replace(/Check/,'');
+                if($(e.target).is(':checked')){
+                    $(`#${elm}`).prop('disabled',false);
+                }else{
+                    $(`#${elm}`).prop('disabled',true);
+                }
+            })
+            $('#ageCheck,#heightCheck,#weightCheck,#bmiCheck').on('change',(e)=>{
+                let elm = e.target.name.replace(/Check/,'');
+                if($(e.target).is(':checked')){
+                    $(`#min${elm.charAt(0).toUpperCase() + elm.slice(1)}`).prop('disabled',false);
+                    $(`#max${elm.charAt(0).toUpperCase() + elm.slice(1)}`).prop('disabled',false);
+                }else{
+                    $(`#min${elm.charAt(0).toUpperCase() + elm.slice(1)}`).prop('disabled',true);
+                    $(`#max${elm.charAt(0).toUpperCase() + elm.slice(1)}`).prop('disabled',true);
+                }
+            });
+            
+            $('#allergyCheck,#testResultCheck,#smokingCheck,#pregnancyStatusCheck,#brestFeedingStatusCheck').on('change',(e)=>{
+                let elm = e.target.name.replace(/Check/,'');
+                if($(e.target).is(':checked')){
+                    $(`input[name="${elm}"`).prop('disabled',false);
+                }else{
+                  $(`input[name="${elm}"`).prop('disabled',true);
+                }
+            });
+
+
+        });
+    </script>
+</body>
+
+
+</html>

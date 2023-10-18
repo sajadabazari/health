@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="fa-IR" dir="rtl">
+
+<%- include("layout/head",{title:'پنل سامانه سلامت'}) %>
+<link rel="stylesheet" href="/assets/plugins/persian_dpicker/css/persianDatepicker-default.css">
+
+
+<body class="app sidebar-mini rtl light-mode">
+  <%- include('layout/switcher') %>
+  <!-- GLOBAL-LOADER -->
+  <div id="global-loader">
+    <img src="/assets/images/loader.svg" class="loader-img" alt="Loader">
+  </div>
+  <!-- /GLOBAL-LOADER -->
+
+  <!-- PAGE -->
+  <div class="page">
+    <div class="page-main">
+
+      <!-- app-Header -->
+      <%- include('layout/header',{login}) %>
+      <!-- /app-Header -->
+      <%- include('layout/sidebar') %>
+
+
+
+
+      <!----=====================================APP-CONTENT OPEN =========================================-->
+      <div class="main-content app-content mt-0">
+        <div class="side-app">
+          <!-- CONTAINER -->
+          <div class="main-container container-fluid">
+
+            <br />
+
+            <!-- Row -->
+            <div class="row">
+              <div class="col-md-12 col-lg-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title">افزودن عارضه بیمار
+                      : <%=user.fname%> <%=user.lname%>
+                    </h3>
+                  </div>
+                  <div class="card-body">
+                    <form class="needs-validation" id="e_crf" novalidate>
+                      <div class="form-row">
+                        <div class="col-xl-6 mb-3">
+                          <label for="vaccineName">نام واکسن</label>
+                          <select class="form-control select2" id="vaccineName" required>
+                            <% if(vaccines){vaccines.forEach((vaccine)=>{ %>
+                            <option value="<%=vaccine.name%>">
+                              <%=vaccine.name%>
+                            </option>
+                            <% }) } %>
+                          </select>
+                          <div class="invalid-feedback">
+                            پر کردن این فیلد الزامی است!
+                          </div>
+                        </div>
+                        <div class="col-xl-6 mb-3">
+                          <label for="injectVaccineDate">تاریخ تزریق
+                            واکسن</label>
+                          <input type="text" class="form-control" id="injectVaccineDate" value="" required>
+                          <div class="invalid-feedback">
+                            تاریخ تزریق واکسن اجباری و باید قبل از تاریخ وقوع عارضه باشد!
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="col-xl-6 mb-3">
+                          <label for="sideEffectDate">تاریخ وقوع عارضه</label>
+                          <input type="text" class="form-control" id="sideEffectDate" value="" required>
+                          <div class="invalid-feedback">
+                            تاریخ وقوع عارضه واکسن اجباری و باید بعد از تاریخ تزریق واکسن باشد!
+                          </div>
+                        </div>
+                        <div class="col-xl-6 mb-3">
+                          <label for="vaccineDose">نوبت واکسن</label>
+                          <input type="number" class="form-control" id="vaccineDose" max="4" value="" userId="<%=userId%>" required>
+                          <div class="invalid-feedback">
+                            پر کردن این فیلد الزامی است!
+                          </div>
+                        </div>
+                      </div>
+                      <br />
+                      <hr class="bg bg-primary">
+                      <div class="form-row">
+                        <div class="col-xl-12 mb-12">
+                          <label for="typeSideEffect">کدام یک از علائم زیر پس از تزریق واکسن
+                            ایجاد شده اند ؟</label>
+                          <div class="checkbox-cstm">
+                            <label>تب</label>
+                            <input type="checkbox" name="typeSideEffectChecks[]" value="cTS_1" />
+                            <label>بی اشتهایی</label>
+                            <input type="checkbox" name="typeSideEffectChecks[]" value="cTS_2" />
+                            <label>استفراغ</label>
+                            <input type="checkbox" name="typeSideEffectChecks[]" value="cTS_3" />
+                            <label>تهوع</label>
+                            <input type="checkbox" name="typeSideEffectChecks[]" value="cTS_4" />
+                            <label>کهیر</label>
+                            <input type="checkbox" name="typeSideEffectChecks[]" value="cTS_5" />
+                            <label>سردرد</label>
+                            <input type="checkbox" name="typeSideEffectChecks[]" value="cTS_6" />
+                            <label>اسهال</label>
+                            <input type="checkbox" name="typeSideEffectChecks[]" value="cTS_7" />
+                            <label>درد و کوفتگی بدن</label>
+                            <input type="checkbox" name="typeSideEffectChecks[]" value="cTS_8" />
+                            <label>سرفه</label>
+                            <input type="checkbox" name="typeSideEffectChecks[]" value="cTS_9" />
+                            <label>تنگی نفس</label>
+                            <input type="checkbox" name="typeSideEffectChecks[]" value="cTS_10" />
+                            <label>درد مفاصل</label>
+                            <input type="checkbox" name="typeSideEffectChecks[]" value="cTS_11" />
+                            <label>عوارض موضعی</label>
+                            <input type="checkbox" name="typeSideEffectChecks[]" value="cTS_12" />
+                            <label>آبسه محل تزریق</label>
+                            <input type="checkbox" name="typeSideEffectChecks[]" value="cTS_13" />
+                            <label>خس خس سینه</label>
+                            <input type="checkbox" name="typeSideEffectChecks[]" value="cTS_14" />
+                            <label>تورم مفاصل</label>
+                            <input type="checkbox" name="typeSideEffectChecks[]" value="cTS_15" />
+                            <label>کاهش سطح هوشیاری</label>
+                            <input type="checkbox" name="typeSideEffectChecks[]" value="cTS_16" />
+                            <label>تشنج</label>
+                            <input type="checkbox" name="typeSideEffectChecks[]" value="cTS_17" />
+                            <label>فوت بیمار</label>
+                            <input type="checkbox" name="typeSideEffectChecks[]" value="cTS_18" />
+                            <label>سایر</label>
+                            <input type="checkbox" class="others" />
+                          </div>
+                          <input type="text" class="form-control" id="typeSideEffect" readonly value="" required>
+                          <div class="invalid-feedback">
+                            پر کردن این فیلد الزامی است!
+                          </div>
+                        </div>
+                      </div>
+                      <br />
+                      <hr class="bg bg-primary">
+                      <div class="form-row">
+                        <div class="col-xl-3 mb-3">
+                          <label for="age">سن</label>
+                          <input type="number" class="form-control" min="6" id="age" value="<%=(e_crf)?e_crf.age:''%>" required>
+                          <div class="invalid-feedback">
+                            لطفا یک مقدار معتبر وارد کنید!
+                          </div>
+                        </div>
+                        <div class="col-xl-3 mb-3">
+                          <label for="weight">وزن(کیلوگرم)</label>
+                          <input type="number" min="15" max="250" step="0.1" class="form-control" id="weight" value="<%=(e_crf)?e_crf.weight:''%>" required>
+                          <div class="invalid-feedback">
+                            محدودیت در ثبت وزن بین 15 – 250 کیلوگرم می باشد!
+                          </div>
+                        </div>
+                        <div class="col-xl-3 mb-3">
+                          <label for="height">قد(سانتی متر)</label>
+                          <input type="number" min="50" max="250" step="0.1" class="form-control" id="height" value="<%=(e_crf)?e_crf.height:''%>" required>
+                          <div class="invalid-feedback">
+                            محدودیت در ثبت قد بین 50 – 250 کیلوگرم می باشد!
+                          </div>
+                        </div>
+                        <div class="col-xl-3 mb-3">
+                          <label for="BMI">نسبت BMI</label>
+                          <input type="number" step="0.1" readonly class="form-control" id="BMI" value="<%=(e_crf)?e_crf.BMI:''%>" required>
+                          <div class="invalid-feedback">
+                            پر کردن این فیلد الزامی است!
+                          </div>
+                        </div>
+                      </div>
+                      <br />
+                      <div class="form-row" id="userLevelForm">
+                        <%if(gender == 'female'){%>
+                        <div class="col-xl-3 mb-3">
+                          <label for="pregnancyStatus">وضعیت بارداری</label>
+                          <label class="custom-control custom-radio" style="display: inline-block;cursor: pointer;">
+                            <input type="radio" class="custom-control-input" name="pregnancyStatus" value="yes">
+                            <span class="custom-control-label">بله</span>
+                          </label>
+                          <label class="custom-control custom-radio" style="display: inline-block;cursor: pointer;">
+                            <input type="radio" checked class="custom-control-input" name="pregnancyStatus" value="no">
+                            <span class="custom-control-label">خیر</span>
+                          </label>
+                          <div class="invalid-feedback">
+                            پر کردن این فیلد الزامی است!
+                          </div>
+                        </div>
+                        <div class="col-xl-6 mb-3">
+                          <label for="brestFeedingStatus">آيا در زمان تزريق
+                            واکسن عادت ماهيانه بود؟</label>
+                          <label class="custom-control custom-radio" style="display: inline-block;cursor: pointer;">
+                            <input type="radio" class="custom-control-input" name="brestFeedingStatus" value="yes">
+                            <span class="custom-control-label">بله</span>
+                          </label>
+                          <label class="custom-control custom-radio" style="display: inline-block;cursor: pointer;">
+                            <input type="radio" checked class="custom-control-input" name="brestFeedingStatus" value="no">
+                            <span class="custom-control-label">خیر</span>
+                          </label>
+                          <div class="invalid-feedback">
+                            پر کردن این فیلد الزامی است!
+                          </div>
+                        </div>
+                        <%}%>
+                                <div class="col-xl-3 mb-3">
+                                    <label for="smoking">مصرف سیگار؟</label>
+                                    <label class="custom-control custom-radio"
+                                        style="display: inline-block;cursor: pointer;">
+                                        <input type="radio" class="custom-control-input" name="smoking"
+                                            value="yes">
+                                        <span class="custom-control-label">بله</span>
+                                    </label>
+                                    <label class="custom-control custom-radio"
+                                        style="display: inline-block;cursor: pointer;">
+                                        <input type="radio" checked class="custom-control-input"
+                                            name="smoking" value="no">
+                                        <span class="custom-control-label">خیر</span>
+                                    </label>
+                                    <div class="invalid-feedback">
+                                        پر کردن این فیلد الزامی است!
+                                    </div>
+                                </div>
+                            </div>
+                            </form>
+                            </div>
+                            <div class="card-footer">
+                            <button class="btn ripple btn-primary" id="reg_ecrfInfo" data-action="create"
+                            type="button">ثبت اطلاعات </button>
+                            </div>
+                            </div>
+                            </div>
+                            </div>
+                            <!-- End Row -->
+                            </div>
+                            </div>
+                            </div>
+                            <!--=============================================== APP-CONTENT CLOSE ==================================-->
+
+
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+
+</footer>
+<!-- FOOTER END -->
+
+</div>
+
+<!-- BACK-TO-TOP -->
+<a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
+
+<%- include('layout/script.ejs') %>
+                        <script src="/assets/plugins/persian_dpicker/js/persianDatepicker.min.js"></script>
+                        <!-- SWEET-ALERT JS -->
+                        <script src="/assets/plugins/sweet-alert/sweetalert.min.js"></script>
+                        <script src="/js/jalali-moment.browser.js"></script>
+                        <script>
+                          let isValidForm = false;
+                          let isValidVaccineDose = false;
+                        </script>
+                        <script src="/js/validate.js"></script>
+                        <script>
+                          $(document).ready(() => {
+                            $('.select2').select2();
+                            let m = $("#injectVaccineDate").persianDatepicker({
+                              formatDate: "YYYY-0M-0D",
+                              onSelect: function() {
+                                let injectVaccineDate = $("#injectVaccineDate").val();
+                                let sideEffectDate = $("#sideEffectDate").val();
+                                let _sideEffectDate = moment(sideEffectDate, 'YYYY/MM/DD')
+                                let today = new Date();
+                                today = moment(today).locale('fa').format('YYYY/MM/DD');
+                                let _injectVaccineDate = moment(injectVaccineDate, 'YYYY/MM/DD')
+                                let isBefore = ((
+                                    _injectVaccineDate.isBefore(moment(sideEffectDate, 'YYYY/MM/DD')) ||
+                                    _injectVaccineDate.isSame(moment(sideEffectDate, 'YYYY/MM/DD'))) &&
+                                  (_injectVaccineDate.isBefore(moment(today, 'YYYY/MM/DD')) ||
+                                    _injectVaccineDate.isSame(moment(today, 'YYYY/MM/DD'))) &&
+                                  (_sideEffectDate.isBefore(moment(today, 'YYYY/MM/DD')) ||
+                                    _sideEffectDate.isSame(moment(today, 'YYYY/MM/DD')))
+                                );
+                                if (!isBefore) {
+                                  document.getElementById('sideEffectDate').setCustomValidity("false");
+                                  document.getElementById('injectVaccineDate').setCustomValidity("false");
+                                } else {
+                                  document.getElementById('sideEffectDate').setCustomValidity("");
+                                  document.getElementById('injectVaccineDate').setCustomValidity("");
+                                };
+
+                              }
+                            });
+
+
+                            $("#sideEffectDate").persianDatepicker({
+                              formatDate: "YYYY-0M-0D",
+                              onSelect: function() {
+                                let injectVaccineDate = $("#injectVaccineDate").val();
+                                let sideEffectDate = $("#sideEffectDate").val();
+                                let _sideEffectDate = moment(sideEffectDate, 'YYYY/MM/DD')
+                                let _injectVaccineDate = moment(injectVaccineDate, 'YYYY/MM/DD')
+                                let today = new Date();
+                                today = moment(today).locale('fa').format('YYYY/MM/DD');
+                                let isBefore = ((
+                                    _injectVaccineDate.isBefore(moment(sideEffectDate, 'YYYY/MM/DD')) ||
+                                    _injectVaccineDate.isSame(moment(sideEffectDate, 'YYYY/MM/DD'))) &&
+                                  (_injectVaccineDate.isBefore(moment(today, 'YYYY/MM/DD')) ||
+                                    _injectVaccineDate.isSame(moment(today, 'YYYY/MM/DD'))) &&
+                                  (_sideEffectDate.isBefore(moment(today, 'YYYY/MM/DD')) ||
+                                    _sideEffectDate.isSame(moment(today, 'YYYY/MM/DD')))
+                                );
+                                if (!isBefore) {
+                                  document.getElementById('sideEffectDate').setCustomValidity("false");
+                                  document.getElementById('injectVaccineDate').setCustomValidity("false");
+                                } else {
+                                  document.getElementById('sideEffectDate').setCustomValidity("");
+                                  document.getElementById('injectVaccineDate').setCustomValidity("");
+                                };
+                              }
+                            });
+                            $('#injectVaccineDate,#sideEffectDate,#BMI').on('input', (e) => {
+                              e.target.value = ''
+                            })
+                            $("#weight,#height").on('input', (e) => {
+                              let w = $('#weight').val();
+                              let h = $('#height').val();
+                              let _BMI = w / ((h / 100) * (h / 100))
+                              $("#BMI").val(`${_BMI.toFixed(1)}`)
+                            })
+                            let checkValidity = false;
+                            $('#e_crf').on('submit', (e) => {
+                              if (e.target.checkValidity() === false) {
+
+                                checkValidity = false;
+                                e.preventDefault();
+                                e.stopPropagation();
+                              }
+                              checkValidity = true;
+                              e.target.classList.add('was-validated');
+                              e.preventDefault();
+                            })
+                            $('#reg_ecrfInfo').on('click', (e) => {
+                              let injectVaccineDate = $("#injectVaccineDate").val();
+                              let sideEffectDate = $("#sideEffectDate").val();
+                              let _sideEffectDate = moment(sideEffectDate, 'YYYY/MM/DD')
+                              let _injectVaccineDate = moment(injectVaccineDate, 'YYYY/MM/DD')
+                              let today = new Date();
+                              today = moment(today).locale('fa').format('YYYY/MM/DD');
+                              let isBefore = ((
+                                  _injectVaccineDate.isBefore(moment(sideEffectDate, 'YYYY/MM/DD')) ||
+                                  _injectVaccineDate.isSame(moment(sideEffectDate, 'YYYY/MM/DD'))) &&
+                                (_injectVaccineDate.isBefore(moment(today, 'YYYY/MM/DD')) ||
+                                  _injectVaccineDate.isSame(moment(today, 'YYYY/MM/DD'))) &&
+                                (_sideEffectDate.isBefore(moment(today, 'YYYY/MM/DD')) ||
+                                  _sideEffectDate.isSame(moment(today, 'YYYY/MM/DD')))
+                              );
+
+                              if (!isBefore) {
+                                document.getElementById('sideEffectDate').setCustomValidity("false");
+                                document.getElementById('injectVaccineDate').setCustomValidity("false");
+                              } else {
+                                document.getElementById('sideEffectDate').setCustomValidity("");
+                                document.getElementById('injectVaccineDate').setCustomValidity("");
+                              };
+                              $('#e_crf').trigger('submit');
+                              if (!checkValidity || !isBefore || !isValidForm || !isValidVaccineDose) {
+                                return;
+                              }
+
+                              let vaccineName = $("#vaccineName").val();
+                              let otherTypeSideEffect = $("#typeSideEffect").val();
+                              let typeSideEffectChecks = []
+
+                              $.map($("input[name='typeSideEffectChecks[]']:checked"), (e) => {
+                                typeSideEffectChecks.push($(e).val());
+                              });
+                              let typeSideEffect = {
+                                otherTypeSideEffect,
+                                typeSideEffectChecks
+                              }
+                              let vaccineDose = parseInt($("#vaccineDose").val());
+                              let age = parseInt($("#age").val());
+                              let weight = parseInt($("#weight").val());
+                              let height = parseInt($("#height").val());
+                              let BMI = parseFloat($("#BMI").val());
+                              let pregnancyStatus = $('input[name="pregnancyStatus"]:checked').val();
+                              let brestFeedingStatus = $('input[name="brestFeedingStatus"]:checked').val();
+                              let smoking = $('input[name="smoking"]:checked').val();
+                              let userId = `<%= userId %>`;
+                              let data = {
+                                userId,
+                                vaccineName,
+                                injectVaccineDate,
+                                typeSideEffect,
+                                sideEffectDate,
+                                vaccineDose,
+                                age,
+                                weight,
+                                height,
+                                BMI,
+                                pregnancyStatus: (pregnancyStatus == 'yes') ? true : false,
+                                brestFeedingStatus: (brestFeedingStatus == 'yes') ? true : false,
+                                smoking: (smoking == 'yes') ? true : false,
+                              };
+                              data = JSON.stringify(data);
+                              $.ajax({
+                                url: `<%=process.env.SITEURL%>/panel/patient/e_crf/create`,
+                                type: 'post',
+                                dataType: 'json',
+                                contentType: 'application/json',
+                                data: data,
+                                success: (res) => {
+                                  console.log(res)
+                                  if (res.statusCode === 200) {
+                                    // Message
+                                    swal({
+                                      title: "عارضه با موفقیت ثبت شد",
+                                      text: "در حال انتقال به صفحه اصلی ... ",
+                                      confirmButtonText: "تایید",
+                                      type: "success"
+                                    });
+                                    setTimeout(function() {
+                                      window.location.href = `<%=process.env.SITEURL%>/panel/patient/e_crfs/${userId}`;
+                                    }, 500);
+                                  }
+                                },
+                                error: function(err) {
+                                  console.log(err)
+                                }
+                              });
+                            })
+
+                            $('input[type=checkbox].others').on('change', (e) => {
+                              if (e.target.checked) {
+                                $("#typeSideEffect").prop('readonly', false);
+                              } else {
+                                $("#typeSideEffect").val("");
+                                $("#typeSideEffect").prop('readonly', true);
+                              }
+                            });
+                          });
+                        </script>
+</body>
+
+
+</html>

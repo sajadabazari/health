@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="fa-IR" dir="rtl">
+
+<%- include("../layout/head",{title:'پنل سامانه سلامت'}) %>
+<link rel="stylesheet" href="/assets/plugins/persian_dpicker/css/persianDatepicker-default.css">
+<style>
+    .wrapper {
+        direction: ltr;
+        margin-bottom: 45px;
+    }
+
+    .file {
+        display: none;
+    }
+
+    .file-name {
+        position: unset;
+        overflow: hidden;
+        line-height: 30px;
+        padding: 5px;
+        box-sizing: border-box;
+        font-size: 15px;
+        vertical-align: middle;
+        width: 300px;
+        border: 2px solid #dbdbdb;
+        color:#2c2c2c;
+        border-radius: 0;
+        height: calc(2em + 0.75rem + 2px);
+    }
+</style>
+<body class="app sidebar-mini rtl light-mode">
+  <%- include('../layout/switcher') %>
+  <!-- GLOBAL-LOADER -->
+  <div id="global-loader">
+    <img src="/assets/images/loader.svg" class="loader-img" alt="Loader">
+  </div>
+  <!-- /GLOBAL-LOADER -->
+
+  <!-- PAGE -->
+  <div class="page">
+    <div class="page-main">
+
+      <!-- app-Header -->
+      <%- include('../layout/header',{login}) %>
+      <!-- /app-Header -->
+      <%- include('../layout/sidebar') %>
+
+      <!----=====================================APP-CONTENT OPEN =========================================-->
+      <div class="main-content app-content mt-0">
+        <div class="side-app">
+
+          <!-- CONTAINER -->
+          <div class="main-container container-fluid">
+
+            <br />
+            <!--Row open-->
+            <div class="row">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header ">
+                    <h3 class="card-title">پرسشنامه کاربران</h3>
+                  </div>
+                  <div class="card-body">
+                    <form class="needs-validation" id="userCreation" novalidate>
+                      <div class="form-row">
+                        <div class="col-xl-6 mb-3">
+                          <label for="quModir">پرسشنامه مدیر :</label>
+                          <div class="wrapper align-items-center uploader">
+                            <input type="file" name="file" id="quModir" class="file">
+                            <div class="d-block">
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <input type="text" name="file-name" class="file-name w-100" readonly="readonly">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button class="btn btn-primary text-center quModir" style="min-width: 45px;font-size:20px;height: 45px;">
+                                            <i class="fa fa-file"></i>
+                                          </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-2">
+                                <a href="<%=process.env.SITEURL%>/uploads/quModir.docx" target="_blank" class="btn btn-primary mt-2 w-100">
+                                  <i class="fa fa-download"></i>
+                                </a>
+                              </div>
+                              <div class="col-md-10">
+                                <button class="btn btn-primary mt-2 w-100" id="upModir">
+                                  <span class="spinner-grow spinner-grow-sm visually-hidden" role="status"
+                                  aria-hidden="true"></span>
+                                  بروزرسانی
+                              </button>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                        <div class="col-xl-6 mb-3">
+                          <label for="quSetad">پرسشنامه کارشناس ستادی :</label>
+                          <div class="wrapper align-items-center uploader">
+                            <input type="file" name="file" id="quSetad" class="file">
+                            <div class="d-block">
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <input type="text" name="file-name" class="file-name w-100" readonly="readonly">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button class="btn btn-primary text-center quSetad" style="min-width: 45px;font-size:20px;height: 45px;">
+                                            <i class="fa fa-file"></i>
+                                          </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-2">
+                                <a href="<%=process.env.SITEURL%>/uploads/quSetad.docx" target="_blank" class="btn btn-primary mt-2 w-100">
+                                  <i class="fa fa-download"></i>
+                                </a>
+                              </div>
+                              <div class="col-md-10">
+                                <button class="btn btn-primary mt-2 w-100" id="upSetad">
+                                  <span class="spinner-grow spinner-grow-sm visually-hidden" role="status"
+                                  aria-hidden="true"></span>
+                                  بروزرسانی
+                              </button>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                        <div class="col-xl-6 mb-3">
+                          <label for="quMohit">پرسشنامه کارشناس محیطی :</label>
+                          <div class="wrapper align-items-center uploader">
+                            <input type="file" name="file" id="quMohit" class="file">
+                            <div class="d-block">
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <input type="text" name="file-name" class="file-name w-100" readonly="readonly">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button class="btn btn-primary text-center quMohit" style="min-width: 45px;font-size:20px;height: 45px;">
+                                            <i class="fa fa-file"></i>
+                                          </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-2">
+                                <a href="<%=process.env.SITEURL%>/uploads/quMohit.docx" target="_blank" class="btn btn-primary mt-2 w-100">
+                                  <i class="fa fa-download"></i>
+                                </a>
+                              </div>
+                              <div class="col-md-10">
+                                <button class="btn btn-primary mt-2 w-100" id="upMohit">
+                                  <span class="spinner-grow spinner-grow-sm visually-hidden" role="status"
+                                  aria-hidden="true"></span>
+                                  بروزرسانی
+                              </button>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                        <div class="col-xl-6 mb-3">
+                          <label for="quMorageb">پرسشنامه مراقب سلامت :</label>
+                          <div class="wrapper align-items-center uploader">
+                            <input type="file" name="file" id="quMorageb" class="file">
+                            <div class="d-block">
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <input type="text" name="file-name" class="file-name w-100" readonly="readonly">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button class="btn btn-primary text-center quMorageb" style="min-width: 45px;font-size:20px;height: 45px;">
+                                            <i class="fa fa-file"></i>
+                                          </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-2">
+                                <a href="<%=process.env.SITEURL%>/uploads/quMorageb.docx" target="_blank" class="btn btn-primary mt-2 w-100">
+                                  <i class="fa fa-download"></i>
+                                </a>
+                              </div>
+                              <div class="col-md-10">
+                                <button class="btn btn-primary mt-2 w-100" id="upMorageb">
+                                  <span class="spinner-grow spinner-grow-sm visually-hidden" role="status"
+                                  aria-hidden="true"></span>
+                                  بروزرسانی
+                              </button>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                        <div class="col-xl-6 mb-3">
+                          <label for="quBimar">پرسشنامه بیمار :</label>
+                          <div class="wrapper align-items-center uploader">
+                            <input type="file" name="file" id="quBimar" class="file">
+                            <div class="d-block">
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <input type="text" name="file-name" class="file-name w-100" readonly="readonly">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button class="btn btn-primary text-center quBimar" style="min-width: 45px;font-size:20px;height: 45px;">
+                                            <i class="fa fa-file"></i>
+                                          </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-2">
+                                <a href="<%=process.env.SITEURL%>/uploads/quBimar.docx" target="_blank" class="btn btn-primary mt-2 w-100">
+                                  <i class="fa fa-download"></i>
+                                </a>
+                              </div>
+                              <div class="col-md-10">
+                                <button class="btn btn-primary mt-2 w-100" id="upBimar">
+                                  <span class="spinner-grow spinner-grow-sm visually-hidden" role="status"
+                                  aria-hidden="true"></span>
+                                  بروزرسانی
+                                </button>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                      <br />
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--row closed-->
+        </div>
+        <!-- CONTAINER CLOSED -->
+      </div>
+    </div>
+    <!--=============================================== APP-CONTENT CLOSE ==================================-->
+
+
+
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+
+  </footer>
+  <!-- FOOTER END -->
+
+  </div>
+
+  <!-- BACK-TO-TOP -->
+  <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
+
+  <!-- JQUERY JS -->
+  <script src="/assets/js/jquery.min.js"></script>
+
+  <!-- BOOTSTRAP JS -->
+  <script src="/assets/plugins/bootstrap/js/popper.min.js"></script>
+  <script src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+
+  <!-- INPUT MASK JS-->
+  <script src="/assets/plugins/input-mask/jquery.mask.min.js"></script>
+
+  <!-- SIDE-MENU JS-->
+  <script src="/assets/plugins/sidemenu/sidemenu.js"></script>
+
+  <!-- TypeHead js -->
+  <!--             <script src="/assets/plugins/bootstrap5-typehead/autocomplete.js"></script>
+    <script src="/assets/js/typehead.js"></script> -->
+
+  <!-- SIDEBAR JS -->
+  <script src="/assets/plugins/sidebar/sidebar.js"></script>
+  <!-- FORM WIZARD JS-->
+  <script src="/assets/plugins/formwizard/jquery.smartWizard.js"></script>
+
+  <!-- Perfect SCROLLBAR JS-->
+  <script src="/assets/plugins/p-scroll/perfect-scrollbar.js"></script>
+  <script src="/assets/plugins/p-scroll/pscroll.js"></script>
+  <script src="/assets/plugins/p-scroll/pscroll-1.js"></script>
+
+  <!-- SELECT2 JS -->
+  <script src="/assets/plugins/select2/select2.full.min.js"></script>
+
+  <!-- FORMVALIDATION JS -->
+  <script src="/assets/js/form-validation.js"></script>
+
+  <!-- Color Theme js -->
+  <script src="/assets/js/themeColors.js"></script>
+  <!-- SWEET-ALERT JS -->
+  <script src="/assets/plugins/sweet-alert/sweetalert.min.js"></script>
+  <!-- Sticky js -->
+  <script src="/assets/js/sticky.js"></script>
+  <script src="/assets/plugins/persian_dpicker/js/persianDatepicker.min.js"></script>
+  <!-- CUSTOM JS -->
+  <script src="/assets/js/custom.js"></script>
+
+  <script src="/assets/js/custom1.js"></script>
+
+  <!-- Switcher js -->
+  <script src="/assets/switcher/js/switcher.js"></script>
+  <script src="/js/helpers.js"></script>
+  <script>
+    let siteUrl = `<%=process.env.SITEURL%>`;
+  </script>
+  <script src="/js/jalali-moment.browser.js"></script>
+  <script src="/js/validate.js"></script>
+
+  <script src="/js/axios/axios.min.js"></script>
+  <script src="/js/axios/axiosConfig.js"></script>
+  <script src="/js/toast/toastify.js"></script>
+  <script src="/js/toast/toast.js"></script>
+  <script src="/js/services/questionService.js"></script>
+  <script>
+    $(document).ready(function() {
+        const updateFile = (uploader,name)=>{
+            if (document.getElementById(`${name}`).files.length) {
+                    $(`#${uploader}`).prop("disabled", true);
+                    $(`#${uploader} span`).removeClass('visually-hidden');
+                    let Files = new FormData();
+                    Files.append('file', document.getElementById(`${name}`).files[0]);
+                    updateQuestion(Files,uploader,name);
+                }else{
+                    Toast("لطفا ابتدا یک فایل انتخاب کنید.","error",false);
+                } 
+        }
+        $('.quModir').on('click', function(e) {
+                e.preventDefault();
+                $('#quModir').trigger('click');
+            });
+            $('#quModir').on('change', function(e) {
+                var fileName = $(this)[0].files[0].name;
+                console.log($(this))
+                $(this).closest('.uploader').find('.file-name').val(fileName);
+            });
+        $('.quSetad').on('click', function(e) {
+                e.preventDefault();
+                $('#quSetad').trigger('click');
+            });
+
+            $('#quSetad').on('change', function(e) {
+                var fileName = $(this)[0].files[0].name;
+                $(this).closest('.uploader').find('.file-name').val(fileName);
+            });
+        $('.quMohit').on('click', function(e) {
+                e.preventDefault();
+                $('#quMohit').trigger('click');
+            });
+
+            $('#quMohit').on('change', function(e) {
+                var fileName = $(this)[0].files[0].name;
+                $(this).closest('.uploader').find('.file-name').val(fileName);
+            });
+        $('.quMorageb').on('click', function(e) {
+                e.preventDefault();
+                $('#quMorageb').trigger('click');
+            });
+
+            $('#quMorageb').on('change', function(e) {
+                var fileName = $(this)[0].files[0].name;
+                $(this).closest('.uploader').find('.file-name').val(fileName);
+            });
+        $('.quBimar').on('click', function(e) {
+                e.preventDefault();
+                $('#quBimar').trigger('click');
+            });
+            $('#quBimar').on('change', function(e) {
+                var fileName = $(this)[0].files[0].name;
+                $(this).closest('.uploader').find('.file-name').val(fileName);
+            });
+        $('#upModir').on('click', (e) => {
+            e.preventDefault();
+            updateFile('upModir','quModir')
+            });
+        $('#upSetad').on('click', (e) => {
+            e.preventDefault();
+            updateFile('upSetad','quSetad')
+            });
+        $('#upMohit').on('click', (e) => {
+            e.preventDefault();
+            updateFile('upMohit','quMohit')
+            });
+        $('#upMorageb').on('click', (e) => {
+            e.preventDefault();
+            updateFile('upMorageb','quMorageb')
+            });
+        $('#upBimar').on('click', (e) => {
+            e.preventDefault();
+            updateFile('upBimar','quBimar')
+            });
+      $(".select2").select2();
+
+      $("#province_id").on("change", function() {
+        let id = $(this).val();
+        if (id != "null") {
+          getCities(id);
+        } else {
+          $("#city_id option").remove();
+          $("#city_id").prop("disabled", true);
+        }
+      });
+      $("#city_id").on("change", function() {
+        let id = $(this).val();
+        if (id != "null") {
+          getHCenters(id);
+        } else {
+          $("#hcenter_id option").remove();
+          $("#hcenter_id").prop("disabled", true);
+        }
+      });
+      $("#hcenter_id").on("change", function() {
+        let id = $(this).val();
+        if (id != "null") {
+          getVillages(id);
+        } else {
+          $("#village_id option").remove();
+          $("#village_id").prop("disabled", true);
+        }
+      });
+
+
+      //========================Form Wizard========================================
+
+      $('#createUser').on('click', (e) => {
+
+        if ($('#userCreation')[0].checkValidity() === false) {
+          e.preventDefault();
+          e.stopPropagation();
+          $('#userCreation').addClass('was-validated');
+          return false;
+        }
+        let userData = {
+          fname: $('#fname').val(),
+          lname: $('#lname').val(),
+          nationalCode: $('#nationalCode').val(),
+          email: $('#email').val(),
+          password: $('#password').val(),
+          isAdmin: false,
+          isPatient: false,
+          province: $('#province_id').val(),
+          city: $('#city_id').val(),
+          hcenter: $('#hcenter_id').val(),
+          village: $('#village_id').val(),
+          userLevelLabel: $('#userLevelLabel').val(),
+          accessibility: {
+            ptnRegister: $("#ptnRegister").is(':checked'),
+            ptnSearch: $("#ptnSearch").is(':checked'),
+            ptnSideEffect: $("#ptnSideEffect").is(':checked'),
+            deleteSideEffect: $("#deleteSideEffect").is(':checked'),
+            editSideEffect: $("#editSideEffect").is(':checked'),
+            deletePatient: $("#deletePatient").is(':checked'),
+            getReport: $("#getReport").is(':checked'),
+            editHistory: $("#editHistory").is(':checked'),
+          }
+        }
+
+        createUser(userData);
+
+      })
+    })
+  </script>
+
+</body>
+
+
+</html>

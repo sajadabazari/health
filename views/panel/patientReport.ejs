@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="fa-IR" dir="rtl">
+
+<%- include("layout/head",{title:'پنل سامانه سلامت'}) %>
+<style>
+    .table td {
+        padding: 0.2rem;
+        padding-right: 15px;
+    }
+
+    .tagify+input,
+    .tagify+textarea {
+        position: initial !important;
+        left: 0 !important;
+        transform: none !important;
+        width: 100%;
+        margin-top: .2em;
+        min-height: 11ch;
+        background: powderblue;
+        font-family: "Fira Code";
+    }
+
+    tag {
+        background: white;
+    }
+
+    .tagify {
+        border: 1px solid #7676766b;
+        border-radius: 5px;
+        padding-right: 10px !important;
+        ;
+        width: 100%;
+    }
+
+    .deleteModal .modal-header {
+        background-color: rgb(169 0 0 / 94%);
+        border-bottom: 1px solid rgb(126 0 0) !important;
+        color: white;
+    }
+
+    .deleteModal .modal-body {
+        background-color: rgb(159 0 0 / 94%);
+        color: white;
+    }
+
+    .deleteModal .modal-footer {
+        background-color: rgb(169 0 0 / 94%);
+        border-top: 1px solid rgb(126 0 0) !important;
+        color: white;
+    }
+
+
+
+    .loader {
+        position: fixed;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 999999;
+        top: 20%;
+        left: 45%;
+        transform: translate(-50%, -50%);
+    }
+
+    .loader span {
+        position: relative;
+        width: 120px;
+        height: 120px;
+        background-color: #eaeef0;
+        border: 6px solid #eaeef0;
+        border-radius: 50%;
+        overflow: hidden;
+    }
+
+    .loader span:before {
+        content: "";
+        position: absolute;
+        inset: 30px;
+        background-color: #1a1a3c;
+        border: 2px solid #eaeef0;
+        border-radius: 50%;
+        z-index: 1;
+    }
+
+    .loader span i {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(#42abff, #ff4f8b, #ffeb4b);
+        border-radius: 50%;
+        filter: blur(5px);
+        animation: animate 1s linear infinite;
+    }
+
+    @keyframes animate {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+
+    .text {
+        position: absolute;
+        width: 100%;
+        left: 0%;
+        top: 120px;
+        display: block;
+        font-weight: normal;
+        font-size: 1.1em;
+    }
+</style>
+<link rel="stylesheet" href="/assets/plugins/persian_dpicker/css/persianDatepicker-default.css">
+
+<link rel="stylesheet" href="/css/tagify.css">
+<link rel="stylesheet" href="/css/toastify.min.css">
+
+
+<body class="app sidebar-mini rtl light-mode">
+    <%- include('layout/switcher') %>
+    <!-- GLOBAL-LOADER -->
+    <div id="global-loader">
+        <img src="/assets/images/loader.svg" class="loader-img" alt="Loader">
+    </div>
+    <!-- /GLOBAL-LOADER -->
+
+    <!-- PAGE -->
+    <div class="page">
+        <div class="page-main">
+
+            <!-- app-Header -->
+            <%-include('layout/header',{login})%>
+            <%-include('layout/sidebar')%>
+            <!--==========================Delete Modal=================================-->
+            <!-- MODAL Effects -->
+            <div class="modal fade" id="modaldemo8">
+                <div class="modal-dialog modal-dialog-centered text-center" role="document">
+                    <div class="modal-content modal-content-demo">
+                        <div class="modal-header">
+                            <h6 class="modal-title">حذف گزارش</h6><button aria-label="Close" class="btn-close"
+                                data-bs-dismiss="modal"><span aria-hidden="true ">&times;</span></button>
+                        </div>
+                        <div class="modal-body">
+                            آیا با حذف گزارش موافق هستید؟
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-light deleteReport">تایید</button> <button class="btn btn-danger"
+                                data-bs-dismiss="modal">لغو</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <style>
+                .modal-header {
+                    background-color: rgb(169 0 0 / 94%);
+                    border-bottom: 1px solid rgb(126 0 0) !important;
+                    color: white;
+                }
+
+                .modal-body {
+                    background-color: rgb(159 0 0 / 94%);
+                    color: white;
+                }
+
+                .modal-footer {
+                    background-color: rgb(169 0 0 / 94%);
+                    border-top: 1px solid rgb(126 0 0) !important;
+                    color: white;
+                }
+
+                .search-popup {
+                    width: 40%;
+                    background-color: white;
+                    box-shadow: 0 5px 10px #ccc;
+                    position: absolute;
+                    z-index: 99;
+                    margin-right: 5px;
+                    border-radius: 0 0 10px 10px;
+                    text-align: center;
+                    cursor: pointer;
+                }
+
+                .search-popup th {
+                    background-color: rgb(70 134 199);
+                    color: white;
+                    box-shadow: 0 0 3px #ededed;
+                    padding: 10px 15px 10px 15px;
+                }
+
+                .search-popup td {
+                    background-color: white;
+                    box-shadow: 0 0 3px #ededed;
+                    padding: 10px;
+                }
+
+                .search-popup tr:hover td {
+                    background-color: rgb(203 203 203 / 11%);
+                }
+            </style>
+            <!--==========================Delete Modal=================================-->
+
+
+            <!----=====================================APP-CONTENT OPEN =========================================-->
+            <div class="main-content app-content mt-0">
+                <div class="side-app">
+
+                    <!-- CONTAINER -->
+                    <div class="main-container container-fluid">
+                        <br />
+
+                        <!-- ROW OPEN -->
+                        <div class="row row-cards">
+                            <div class="col-lg-12 col-xl-12">
+                                <!--                                <div class="form-row">
+                                    <div class="col-xl-5 mb-4">
+                                        <label for="injectVaccineDate">
+                                            تاریخ وقوع عارضه
+                                        </label>
+                                        <input type="text" class="form-control" id="reportFrom" value=""
+                                            placeholder="از" required>
+                                    </div>
+                                    <div class="col-xl-5 mb-3">
+                                        <label for="sideEffectDate">/</label>
+                                        <input type="text" class="form-control" id="reportTo" placeholder="تا" value=""
+                                            required>
+                                    </div>
+                                    <div class="col-xl-2 mb-3">
+                                        <button class="btn btn-primary" style="margin-top: 29px;width:100%"
+                                            id="getReport">تهیه گزارش</button>
+                                    </div>
+                                </div> -->
+                                <div class="card">
+                                    <div class="card-header border-bottom-0">
+                                        انتخاب بیمار
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="form-row">
+                                            <label style="color:red">
+                                                <%=(selectedPatient)?`  بیمار انتخاب شده : ${selectedPatient.user.fname +' ' +selectedPatient.user.lname} با کد ملی ${selectedPatient.user.nationalCode}`:''%>
+                                                <%if(selectedPatient){%>
+                                                    <button class="btn btn-primary" data-id="<%=selectedPatient.user._id%>" id="getReport">تهیه گزارش</button>
+                                                <%}%>
+                                            </label>
+                                            <div class="col-xl-12 mb-12">
+                                                <input type="text" class="form-control" id="patientSearch" value=""
+                                                    placeholder="جستجو با نام،نام خانوادگی،ایمیل،کدملی">
+                                                <div class="search-popup bg bg-light shadow-lg" style="display: none;">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>نام بیمار</th>
+                                                                <th>کد ملی</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+<!--                                 <div class="card">
+                                    <div class="card-header">
+                                        گزارش بیمار
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="e-table px-5 pb-5">
+                                            <div class="table-responsive table-lg">
+                                                <table class="table border-top table-bordered mb-0">
+                                                    <thead id="reportIntoHead">
+                                                    </thead>
+                                                    <tbody id="reportInfoBody">
+                                                        ابتدا یک بیمار انتخاب کنید
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                            </div>
+                            <!-- COL-END -->
+                        </div>
+                        <!-- ROW CLOSED -->
+                    </div>
+                    <!-- CONTAINER CLOSED -->
+                </div>
+            </div>
+            <!--=============================================== APP-CONTENT CLOSE ==================================-->
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <div class="loader" id="loader" style="display: none;">
+                <div class="text">
+                    <p>در حال تهیه گزارش </p>
+                </div>
+                <span><i></i></span>
+            </div>
+        </footer>
+        <!-- FOOTER END -->
+
+    </div>
+
+    <!-- BACK-TO-TOP -->
+    <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
+
+    <%- include('layout/script.ejs') %>
+    <!-- SWEET-ALERT JS -->
+    <script src="/assets/plugins/persian_dpicker/js/persianDatepicker.min.js"></script>
+
+    <script src="/assets/plugins/sweet-alert/sweetalert.min.js"></script>
+    <script src="/js/tagify.min.js"></script>
+    <script src="/js/toastify-js.js"></script>
+    <script src="/js/jalali-moment.browser.js"></script>
+<script src="/js/validate.js"></script>    <script>
+        $(document).ready(() => {
+           
+            let siteUrl = '<%=process.env.SITEURL%>';
+            /*             $("#reportFrom").persianDatepicker({
+                            formatDate: "YYYY/0M/0D"
+                        });
+                        $("#reportTo").persianDatepicker({
+                            formatDate: "YYYY/0M/0D",
+                        }); */
+            let findPatient = (searchVal) => {
+                let data = JSON.stringify({
+                    searchVal
+                });
+                $.ajax({
+                    url: `<%=process.env.SITEURL%>/panel/patient/find`,
+                    type: 'post',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: data,
+                    beforeSend: () => {
+                    },
+                    success: (res) => {
+                        console.log(res)
+                        if (res.patients.length == 0) return;
+                        $('.search-popup tbody').empty();
+                        res.patients.forEach((_) => {
+                            $('.search-popup tbody').append(`
+                            <tr data-id="${_._id}">
+                                <td class="bg bg-light"> 
+                                    ${_.fname} ${_.lname}
+                                </td>
+                                <td class="bg bg-light">
+                                    ${_.nationalCode}
+                                </td>
+                            </tr>
+                            `);
+                        })
+                        $('.search-popup').fadeIn('slow');
+                        console.log(res)
+                    },
+                    error: function (err) {
+                        $('#loader').fadeOut(500);
+                        console.log(err)
+                    }
+                });
+
+            }
+            var timer;
+            $('#patientSearch').on('keyup', (e) => {
+                timer = setTimeout(() => {
+                    findPatient(e.target.value);
+                }, 1500)
+            });
+            $(document).on('click', '.search-popup tr td', (e) => {
+                let _id = $(e.target).closest('tr').attr('data-id');
+                window.location.href = `${siteUrl}/panel/report/patient/${_id}`;
+            });
+
+
+            $('#getReport').on('click', (e) => {
+/*                 let reportFrom = $('#reportFrom').val();
+                let reportTo = $('#reportTo').val();
+                let data = JSON.stringify({
+                    reportFrom, reportTo
+                }); */
+                let data = JSON.stringify({
+                    _id: $(e.target).attr('data-id').trim()
+                });
+                $.ajax({
+                    url: `<%=process.env.SITEURL%>/panel/report/getReportPatient`,
+                    type: 'post',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: data,
+                    beforeSend: () => {
+                        $('#loader').fadeIn(500);
+                    },
+                    success: (res) => {
+                        $('#loader').fadeOut(500);
+                     //   console.log(res);
+                        window.location.href = `<%=process.env.SITEURL%>/files/${res.report.fileName}.pdf`;
+                    },
+                    error: function (err) {
+                        $('#loader').fadeOut(500);
+                        console.log(err)
+                    }
+                });
+            });
+
+
+        });
+    </script>
+</body>
+
+
+</html>

@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="fa-IR" dir="rtl">
+
+<%- include("layout/head",{title:'پنل سامانه سلامت'}) %>
+
+<body class="app sidebar-mini rtl light-mode">
+    <%- include('layout/switcher') %>
+    <!-- GLOBAL-LOADER -->
+    <div id="global-loader">
+        <img src="/assets/images/loader.svg" class="loader-img" alt="Loader">
+    </div>
+    <!-- /GLOBAL-LOADER -->
+
+    <!-- PAGE -->
+    <div class="page">
+        <div class="page-main">
+
+            <!-- app-Header -->
+            <%- include('layout/header',{login}) %>
+            <!-- /app-Header -->
+
+            <%if(login.isAdmin){%>
+            <%- include('layout/sidebar',{userCount,login}) %>
+            <%}else{%>
+                <%- include('layout/sidebar',{login}) %>
+            <%}%>
+
+
+
+            <!----=====================================APP-CONTENT OPEN =========================================-->
+            <div class="main-content app-content mt-0">
+                <div class="side-app">
+
+                    <!-- CONTAINER -->
+                    <div class="main-container container-fluid">
+
+                        <!-- PAGE-HEADER -->
+                        <br />
+                        <!-- PAGE-HEADER END -->
+
+                        <!-- ROW-1 -->
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12">
+                                <div class="row">
+                                    <%if(login.isAdmin){%>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
+                                        <div class="card overflow-hidden">
+                                            <div class="card-body">
+                                                <div class="d-flex">
+                                                    <div class="mt-2">
+                                                        <h6 class="">تعداد مدیران</h6>
+                                                        <h2 class="mb-0 number-font"><%=adminCount%></h2>
+                                                    </div>
+                                                    <div class="ms-auto">
+                                                        <div class="chart-wrapper mt-1">
+                                                            <canvas id="saleschart"
+                                                                class="h-8 w-9 chart-dropshadow"></canvas>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
+                                        <div class="card overflow-hidden">
+                                            <div class="card-body">
+                                                <div class="d-flex">
+                                                    <div class="mt-2">
+                                                        <h6 class="">تعداد کارشناسان</h6>
+                                                        <h2 class="mb-0 number-font"><%=expertCount%></h2>
+                                                    </div>
+                                                    <div class="ms-auto">
+                                                        <div class="chart-wrapper mt-1">
+                                                            <canvas id="leadschart"
+                                                                class="h-8 w-9 chart-dropshadow"></canvas>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
+                                        <div class="card overflow-hidden">
+                                            <div class="card-body">
+                                                <div class="d-flex">
+                                                    <div class="mt-2">
+                                                        <h6 class="">مراقبین سلامت</h6>
+                                                        <h2 class="mb-0 number-font fs-5"><%=healthCareCount%></h2>
+                                                    </div>
+                                                    <div class="ms-auto">
+                                                        <div class="chart-wrapper mt-1">
+                                                            <canvas id="profitchart"
+                                                                class="h-8 w-9 chart-dropshadow"></canvas>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
+                                        <a href="<%=process.env.SITEURL%>/panel/patients" class="a-nonColor">
+                                            <div class="card overflow-hidden">
+                                                <div class="card-body">
+                                                    <div class="d-flex">
+                                                        <div class="mt-2">
+                                                            <h6 class="">بیماران</h6>
+                                                            <h2 class="mb-0 number-font fs-5"><%=patientCount%></h2>
+                                                        </div>
+                                                        <div class="ms-auto">
+                                                            <div class="chart-wrapper mt-1">
+                                                                <canvas id="costchart"
+                                                                    class="h-8 w-9 chart-dropshadow"></canvas>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <%}%>
+                                </div>
+                            </div>
+                            <!-- ROW-1 END -->
+
+                            <!-- ROW-2 -->
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h3 class="card-title">آمار واکسیناسیون بر اساس تاریخ</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="d-flex mx-auto text-center justify-content-center mb-4">
+                                                <div class="d-flex text-center justify-content-center me-3">
+                                                    <span class="dot-label bg-primary my-auto"></span>مرد
+                                                </div>
+                                                <div class="d-flex text-center justify-content-center"><span
+                                                        class="dot-label bg-secondary my-auto"></span>زن
+                                                </div>
+                                            </div>
+                                            <div class="chartjs-wrapper-demo">
+                                                <canvas id="transactions" class="chart-dropshadow"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- COL END -->
+                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
+                                    <div class="card overflow-hidden">
+                                        <div class="card-body pb-0 bg-recentorder">
+                                            <h3 class="card-title text-white">آمار واکسیناسیون</h3>
+                                            <div class="chartjs-wrapper-demo">
+                                                <canvas id="recentorders" class="chart-dropshadow"></canvas>
+                                            </div>
+                                        </div>
+                                        <div id="flotback-chart" class="flot-background"></div>
+                                        <div class="card-body">
+                                            <div class="d-flex mb-4 mt-3">
+                                                <div
+                                                    class="avatar avatar-md bg-secondary-transparent text-secondary bradius me-3">
+                                                    <i class="fe fe-check"></i>
+                                                </div>
+                                                <div class="">
+                                                    <h6 class="mb-1 fw-semibold">واکسینه شده</h6>
+                                                    <p class="fw-normal fs-12"> <span class="text-success">65%</span>
+                                                        افزایش </p>
+                                                </div>
+                                                <div class=" ms-auto my-auto">
+                                                    <p class="fw-bold fs-20"> 1899 </p>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex">
+                                                <div
+                                                    class="avatar avatar-md bg-pink-transparent text-pink bradius me-3">
+                                                    <i class="fe fe-x"></i>
+                                                </div>
+                                                <div class="">
+                                                    <h6 class="mb-1 fw-semibold">در انتظار</h6>
+                                                    <p class="fw-normal fs-12"> <span class="text-warning">35%</span>
+                                                        مانده </p>
+                                                </div>
+                                                <div class=" ms-auto my-auto">
+                                                    <p class="fw-bold fs-20 mb-0"> 728 </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- COL END -->
+                            </div>
+                            <!-- ROW-2 END -->
+                        </div>
+                        <!-- CONTAINER END -->
+                    </div>
+                </div>
+                <!--=============================================== APP-CONTENT CLOSE ==================================-->
+
+
+
+
+            </div>
+
+            <!-- FOOTER -->
+            <footer class="footer">
+
+            </footer>
+            <!-- FOOTER END -->
+
+        </div>
+
+        <!-- BACK-TO-TOP -->
+        <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
+
+        <%- include('layout/script.ejs') %>
+</body>
+
+
+</html>

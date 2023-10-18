@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="fa-IR" dir="rtl">
+
+<%- include("layout/head",{title:'پنل سامانه سلامت'}) %>
+<link rel="stylesheet" href="/assets/plugins/persian_dpicker/css/persianDatepicker-default.css">
+
+<link rel="stylesheet" href="/css/tagify.css">
+<link rel="stylesheet" href="/css/toastify.min.css">
+
+
+<body class="app sidebar-mini rtl light-mode">
+    <%- include('layout/switcher') %>
+    <!-- GLOBAL-LOADER -->
+    <div id="global-loader">
+        <img src="/assets/images/loader.svg" class="loader-img" alt="Loader">
+    </div>
+    <!-- /GLOBAL-LOADER -->
+
+    <!-- PAGE -->
+    <div class="page">
+        <div class="page-main">
+            <%-include('layout/header',{login})%>
+            <%-include('layout/sidebar')%>
+
+            <!----=====================================APP-CONTENT OPEN =========================================-->
+            <div class="main-content app-content mt-0">
+                <div class="side-app">
+
+                    <!-- CONTAINER -->
+                    <div class="main-container container-fluid">
+                        <br />
+
+                        <!-- ROW OPEN -->
+                        <div class="row row-cards">
+                            <div class="col-lg-12 col-xl-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        تعداد افراد به تفکیک جنسیت
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="e-table px-5 pb-5">
+                                            <div class="table-responsive table-lg">
+                                                <table class="table border-top table-bordered mb-0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>جنسیت</th>
+                                                            <th>تعداد</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="reportList">
+                                                        <tr>
+                                                            <td class="text-nowrap align-middle">
+                                                                مرد
+                                                            </td>
+                                                            <td class="text-nowrap align-middle">
+                                                                <%=(genderCount[0].man)?genderCount[0].man:'0'%>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap align-middle">
+                                                                زن
+                                                            </td>
+                                                            <td class="text-nowrap align-middle">
+                                                                <%=(genderCount[0].female)?genderCount[0].female:'0'%>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap align-middle">
+                                                                دو جنسیتی
+                                                            </td>
+                                                            <td class="text-nowrap align-middle">
+                                                                <%=(genderCount[0].bigender)?genderCount[0].bigender:'0'%>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap align-middle">
+                                                                نامشخص
+                                                            </td>
+                                                            <td class="text-nowrap align-middle">
+                                                                <%=(genderCount[0].unknown)?genderCount[0].unknown:'0'%>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- COL-END -->
+                        </div>
+                        <!-- ROW CLOSED -->
+                        <!-- ROW OPEN -->
+                        <div class="row row-cards">
+                            <div class="col-lg-12 col-xl-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        تعداد افراد به تفکیک تحصیلات
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="e-table px-5 pb-5">
+                                            <div class="table-responsive table-lg">
+                                                <table class="table border-top table-bordered mb-0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>تحصیلات</th>
+                                                            <th>تعداد</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="reportList">
+                                                        <tr>
+                                                            <td class="text-nowrap align-middle">
+                                                                دکتری
+                                                            </td>
+                                                            <td class="text-nowrap align-middle">
+                                                                <%=(educationRateCount[0].Doctora)?educationRateCount[0].Doctora:'0'%>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap align-middle">
+                                                                کارشناسی ارشد
+                                                            </td>
+                                                            <td class="text-nowrap align-middle">
+                                                                <%=(educationRateCount[0].Arshad)?educationRateCount[0].Arshad:'0'%>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap align-middle">
+                                                                کارشناسی
+                                                            </td>
+                                                            <td class="text-nowrap align-middle">
+                                                                <%=(educationRateCount[0].Karshenasi)?educationRateCount[0].Karshenasi:'0'%>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap align-middle">
+                                                                کاردانی
+                                                            </td>
+                                                            <td class="text-nowrap align-middle">
+                                                                <%=(educationRateCount[0].Kardani)?educationRateCount[0].Kardani:'0'%>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap align-middle">
+                                                                دیپلم
+                                                            </td>
+                                                            <td class="text-nowrap align-middle">
+                                                                <%=(educationRateCount[0].Diplom)?educationRateCount[0].Diplom:'0'%>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap align-middle">
+                                                                سیکل
+                                                            </td>
+                                                            <td class="text-nowrap align-middle">
+                                                                <%=(educationRateCount[0].ZDiplom)?educationRateCount[0].ZDiplom:'0'%>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap align-middle">
+                                                                ابتدایی 
+                                                            </td>
+                                                            <td class="text-nowrap align-middle">
+                                                                <%=(educationRateCount[0].Ebtedaei)?educationRateCount[0].Ebtedaei:'0'%>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap align-middle">
+                                                                بیسواد 
+                                                            </td>
+                                                            <td class="text-nowrap align-middle">
+                                                                <%=(educationRateCount[0].Bisavad)?educationRateCount[0].Bisavad:'0'%>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- COL-END -->
+                        </div>
+                        <!-- ROW CLOSED -->
+                        <!-- ROW OPEN -->
+                        <div class="row row-cards">
+                            <div class="col-lg-12 col-xl-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        تعداد افراد به تفکیک وضعیت مالی
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="e-table px-5 pb-5">
+                                            <div class="table-responsive table-lg">
+                                                <table class="table border-top table-bordered mb-0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>وضعیت مالی</th>
+                                                            <th>تعداد</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="reportList">
+                                                        <tr>
+                                                            <td class="text-nowrap align-middle">
+                                                                ضعیف
+                                                            </td>
+                                                            <td class="text-nowrap align-middle">
+                                                                <%=(ecoStatusCount[0].weak)?ecoStatusCount[0].weak:'0'%>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap align-middle">
+                                                                متوسط
+                                                            </td>
+                                                            <td class="text-nowrap align-middle">
+                                                                <%=(ecoStatusCount[0].average)?ecoStatusCount[0].average:'0'%>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap align-middle">
+                                                                خوب
+                                                            </td>
+                                                            <td class="text-nowrap align-middle">
+                                                                <%=(ecoStatusCount[0].good)?ecoStatusCount[0].good:'0'%>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap align-middle">
+                                                                عالی
+                                                            </td>
+                                                            <td class="text-nowrap align-middle">
+                                                                <%=(ecoStatusCount[0].great)?ecoStatusCount[0].great:'0'%>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- COL-END -->
+                        </div>
+                        <!-- ROW CLOSED -->
+                    </div>
+                    <!-- CONTAINER CLOSED -->
+                </div>
+            </div>
+            <!--=============================================== APP-CONTENT CLOSE ==================================-->
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <div class="loader" id="loader" style="display: none;">
+                <div class="text">
+                    <p>در حال تهیه گزارش </p>
+                </div>
+                <span><i></i></span>
+            </div>
+        </footer>
+        <!-- FOOTER END -->
+
+    </div>
+
+    <!-- BACK-TO-TOP -->
+    <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
+
+    <%- include('layout/script.ejs') %>
+    <!-- SWEET-ALERT JS -->
+    <script src="/assets/plugins/persian_dpicker/js/persianDatepicker.min.js"></script>
+
+    <script src="/assets/plugins/sweet-alert/sweetalert.min.js"></script>
+    <script src="/js/tagify.min.js"></script>
+    <script src="/js/toastify-js.js"></script>
+    <script src="/js/jalali-moment.browser.js"></script>
+<script src="/js/validate.js"></script>    <script>
+        $(document).ready(() => {
+            $("#reportFrom").persianDatepicker({
+                formatDate: "YYYY/0M/0D"
+            });
+            $("#reportTo").persianDatepicker({
+                formatDate: "YYYY/0M/0D",
+            });
+
+            $(document).on('click', '.deleteModal', (e) => {
+                $('.deleteReport').attr('data-id', $(e.target).closest('a').attr('data-id'));
+            })
+            $('.deleteReport').on('click', (e) => {
+                let _id = $(e.target).attr('data-id');
+                window.location.href = `<%=process.env.SITEURL%>/panel/report/delete/${_id}`;
+            })
+            $('#userSearch').on('click', () => {
+                let searchInput = $('#searchInput').val().trim();
+                window.location.href = `<%=process.env.SITEURL%>/panel/em/patient/search/${searchInput}`;
+            })
+            let inputElm = document.querySelector('input[name="tags"]');
+            let tagify = new Tagify(inputElm);
+            let editElm = null;
+            $('._pHistory').on('click', (e) => {
+                editElm = e;
+                tagify.removeAllTags();
+                $('#regHInfo').attr('data-id', $(e.target).closest('a').attr('data-id'));
+                let _historyData = $(e.target).closest('a').attr('data-value');
+                _historyData = JSON.parse(_historyData);
+                $('input[name="allergy"][value="yes"]').prop('checked', _historyData.allergy);
+                $('input[name="allergy"][value="no"]').prop('checked', !_historyData.allergy);
+                $('input[name="testResult"][value="yes"]').prop('checked', _historyData.testResult);;
+                $('input[name="testResult"][value="no"]').prop('checked', !_historyData.testResult);;
+                tagify.addTags(_historyData.chronicDiseases)
+            });
+
+
+            $('#getReport').on('click', (e) => {
+                let reportFrom = $('#reportFrom').val();
+                let reportTo = $('#reportTo').val();
+                let data = JSON.stringify({
+                    reportFrom, reportTo
+                });
+                $.ajax({
+                    url: `<%=process.env.SITEURL%>/panel/getReport`,
+                    type: 'post',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: data,
+                    beforeSend: () => {
+                        $('#loader').fadeIn(500);
+                    },
+                    success: (res) => {
+                        $('#loader').fadeOut(500);
+                        if (res.statusCode === 200) {
+                            $('#reportList').prepend(`
+                            <tr>
+                                <td class="text-nowrap align-middle">
+                                    ${moment(res.report.createdAt).locale('fa').format('HH:mm YYYY/MM/DD')}
+                                </td>
+                                <td class="text-nowrap align-middle">
+                                    <i class="fa fa-file-pdf-o" style="font-size: 18px;"></i>
+                                    <a href="<%=process.env.SITEURL%>/${res.report.filePath}%>"
+                                        target="_blank">دانلود فایل</a>
+                                </td>
+                                <td class="text-nowrap align-middle">
+                                    <a class="btn btn-sm btn-danger badge modal-effect deleteModal"
+                                        data-bs-effect="effect-super-scaled"
+                                        data-id="${res.report._id.toString()}"
+                                        data-bs-toggle="modal" href="#modaldemo8"
+                                        type="button"><i class="fa fa-trash"></i></a>
+                                </td>
+                            </tr>
+                            `);
+                            Toastify({
+                                text: "گزارش با موفقیت تهیه شد.",
+                                duration: 3000,
+                                newWindow: true,
+                                close: true,
+                                gravity: "bottom", // `top` or `bottom`
+                                position: "left", // `left`, `center` or `right`
+                                stopOnFocus: true, // Prevents dismissing of toast on hover
+                                style: {
+                                    background: "linear-gradient(to right, rgb(4 126 36), rgb(0 223 110))",
+                                },
+                            }).showToast();
+                        }
+                    },
+                    error: function (err) {
+                        $('#loader').fadeOut(500);
+                        console.log(err)
+                    }
+                });
+            });
+
+
+        });
+    </script>
+</body>
+
+
+</html>

@@ -1,0 +1,115 @@
+.table td {
+    padding: 0.2rem;
+    padding-right: 15px;
+}
+
+.tagify+input,
+.tagify+textarea {
+    position: initial !important;
+    left: 0 !important;
+    transform: none !important;
+    width: 100%;
+    margin-top: .2em;
+    min-height: 11ch;
+    background: powderblue;
+    font-family: "Fira Code";
+}
+
+tag {
+    background: white;
+}
+.block-display{
+    display: block !important;
+}
+.tagify {
+    border: 1px solid #7676766b;
+    border-radius: 5px;
+    padding-right: 10px !important;
+    ;
+    width: 100%;
+}
+
+.deleteModal .modal-header {
+    background-color: rgb(169 0 0 / 94%);
+    border-bottom: 1px solid rgb(126 0 0) !important;
+    color: white;
+}
+
+.deleteModal .modal-body {
+    background-color: rgb(159 0 0 / 94%);
+    color: white;
+}
+
+.deleteModal .modal-footer {
+    background-color: rgb(169 0 0 / 94%);
+    border-top: 1px solid rgb(126 0 0) !important;
+    color: white;
+}
+.checkbox-cstm {
+    padding: 15px 5px 15px 5px;
+}
+
+
+.loader {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999999;
+    top: 20%;
+    left: 45%;
+    transform: translate(-50%, -50%);
+}
+
+.loader span {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    background-color: #eaeef0;
+    border: 6px solid #eaeef0;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.loader span:before {
+    content: "";
+    position: absolute;
+    inset: 30px;
+    background-color: #1a1a3c;
+    border: 2px solid #eaeef0;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.loader span i {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(#42abff, #ff4f8b, #ffeb4b);
+    border-radius: 50%;
+    filter: blur(5px);
+    animation: animate 1s linear infinite;
+}
+
+@keyframes animate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+.text {
+    position: absolute;
+    width: 100%;
+    left: 0%;
+    top: 120px;
+    display: block;
+    font-weight: normal;
+    font-size: 1.1em;
+}
+.a-nonColor{
+    color:unset;
+}

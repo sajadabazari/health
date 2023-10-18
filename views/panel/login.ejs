@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="fa-IR" dir="rtl">
+
+<head>
+
+    <!-- META DATA -->
+    <meta charset="UTF-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Sash – الگوی مدیریت و داشبورد بوت استرپ 5">
+    <meta name="author" content="limoostudio">
+    <meta name="keywords"
+        content="ادمین,داشبورد ادمین,پنل ادمین,قالب مدیریت,بوت استرپ,کلین,داشبورد,فلت,جیکوئری,مدرن,ریسپانسیو,قالب ادمین حرفه ای,داشبورد ریسپانسیو,رابط کاربری,کیت رابط کاربری.">
+
+    <!-- FAVICON -->
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/images/brand/favicon.ico" />
+
+    <!-- TITLE -->
+    <title>ورود به پنل</title>
+
+    <!-- BOOTSTRAP CSS -->
+    <link id="style" href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- STYLE CSS -->
+    <link href="/assets/css/style.css" rel="stylesheet" />
+    <link href="/assets/css/dark-style.css" rel="stylesheet" />
+    <link href="/assets/css/transparent-style.css" rel="stylesheet">
+    <link href="/assets/css/skin-modes.css" rel="stylesheet" />
+
+    <!--- FONT-ICONS CSS -->
+    <link href="/assets/css/icons.css" rel="stylesheet" />
+
+    <!-- COLOR SKIN CSS -->
+    <link id="theme" rel="stylesheet" type="text/css" media="all" href="/assets/colors/color1.css" />
+    <link href="/assets/switcher/css/switcher.css" rel="stylesheet" />
+    <link href="/assets/switcher/demo.css" rel="stylesheet" />
+    <link rel="stylesheet" id="fonts" href="/assets/fonts/styles-fa-num/iran-yekan.css">
+    <link href="/assets/css/rtl.css" rel="stylesheet" />
+    <link href="/css/toastify.min.css" rel="stylesheet" />
+</head>
+
+<body class="app sidebar-mini rtl login-img">
+
+    <!-- BACKGROUND-IMAGE -->
+    <div class="">
+
+        <!-- GLOABAL LOADER -->
+        <div id="global-loader">
+            <img src="/assets/images/loader.svg" class="loader-img" alt="Loader">
+        </div>
+        <!-- /GLOABAL LOADER -->
+
+        <!-- PAGE -->
+        <div class="page">
+            <div class="">
+
+                <!-- CONTAINER OPEN -->
+                <div class="col col-login mx-auto mt-7">
+                    <div class="text-center">
+                        <img src="/assets/images/brand/logo-white.png" class="header-brand-img" alt="">
+                    </div>
+                </div>
+
+                <div class="container-login100">
+                    <div class="wrap-login100 p-6">
+                        <form class="login100-form validate-form">
+                            <span class="login100-form-title pb-5">
+                                ورود
+                            </span>
+                            <div class="panel panel-primary">
+                                <div class="tab-menu-heading">
+                                    <div class="tabs-menu1">
+                                        <!-- Tabs -->
+                                        <ul class="nav panel-tabs">
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="panel-body tabs-menu-body p-0 pt-5">
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="tab5">
+                                            <div class="wrap-input100 validate-input input-group"
+                                                data-bs-validate="ایمیل معتبر مورد نیاز است: ex@abc.xyz">
+                                                <a href="javascript:void(0)"
+                                                    class="input-group-text bg-white text-muted">
+                                                    <i class="zmdi zmdi-email text-muted" aria-hidden="true"></i>
+                                                </a>
+                                                <input class="input100 border-start-0 form-control ms-0" type="text"
+                                                    id="nationalCode" placeholder="کد ملی">
+                                            </div>
+                                            <div class="wrap-input100 validate-input input-group" id="Password-toggle">
+                                                <a href="javascript:void(0)"
+                                                    class="input-group-text bg-white text-muted">
+                                                    <i class="zmdi zmdi-eye text-muted" aria-hidden="true"></i>
+                                                </a>
+                                                <input class="input100 border-start-0 form-control ms-0" type="password"
+                                                    id="password" placeholder="پسورد">
+                                            </div>
+                                            <div class="text-end pt-4">
+                                                <p class="mb-0"><a href="<%= process.env.SITEURL %>/panel/forget"
+                                                        class="text-primary ms-1">فراموشی رمز؟</a></p>
+                                            </div>
+                                            <div class="container-login100-form-btn">
+                                                <a id="loginUser" class="login100-form-btn btn-primary"
+                                                    style="cursor:pointer">
+                                                    ورود
+                                                </a>
+                                            </div>
+                                            <div class="text-center pt-3">
+                                                <p class="text-dark mb-0"><a href="<%=process.env.SITEURL%>/panel/register" class="text-primary ms-1">ثبت نام</a></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                <!-- CONTAINER CLOSED -->
+            </div>
+        </div>
+        <!-- End PAGE -->
+
+    </div>
+    <!-- BACKGROUND-IMAGE CLOSED -->
+
+    <!-- JQUERY JS -->
+    <script src="/assets/js/jquery.min.js"></script>
+
+    <!-- BOOTSTRAP JS -->
+    <script src="/assets/plugins/bootstrap/js/popper.min.js"></script>
+    <script src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- SHOW PASSWORD JS -->
+    <script src="/assets/js/show-password.min.js"></script>
+
+    <!-- GENERATE OTP JS -->
+    <script src="/assets/js/generate-otp.js"></script>
+
+    <!-- Color Theme js -->
+    <script src="/assets/js/themeColors.js"></script>
+
+    <!-- Toastify -->
+    <script src="/js/toastify-js.js"></script>
+
+    <!-- CUSTOM JS -->
+    <script src="/assets/js/custom.js"></script>
+    <script>
+        let siteUrl = `<%=process.env.SITEURL%>`;
+    </script>
+    <script src="/assets/js/custom1.js"></script>
+    <script src="/js/script.js"></script>
+
+</body>
+
+
+</html>

@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="fa-IR" dir="rtl">
+
+<%- include("layout/head",{title:'پنل سامانه سلامت|واکسن ها'}) %>
+
+    <body class="app sidebar-mini rtl light-mode">
+        <%- include('layout/switcher') %>
+            <!-- GLOBAL-LOADER -->
+            <div id="global-loader">
+                <img src="/assets/images/loader.svg" class="loader-img" alt="Loader">
+            </div>
+            <!-- /GLOBAL-LOADER -->
+
+            <!-- PAGE -->
+            <div class="page">
+                <div class="page-main">
+
+                    <!-- app-Header -->
+                    <%- include('layout/header',{login}) %>
+                        <!-- /app-Header -->
+                        <%- include('layout/sidebar') %>
+
+                            <!--==========================Insert_Edit Modal=================================-->
+
+                            <div class="modal fade" id="input-modal">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content modal-content-demo">
+                                        <div class="modal-header">
+                                            <h6 class="modal-title" id="_hModalTitle">افزودن واکسن</h6>
+                                            <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">×</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form>
+                                                <div class="mb-3">
+                                                    <label for="vaccineName" class="col-form-label">نام واکسن:</label>
+                                                    <input type="text" class="form-control" id="vaccineName" />
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn ripple btn-success" id="regVaccine" data-action="create"
+                                                type="button" data-bs-dismiss="modal" >ثبت واکسن</button>
+                                            <button class="btn ripple btn-danger" data-bs-dismiss="modal"
+                                                type="button">بستن</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--==========================Insert_Edit Modal=================================-->
+
+                            <!--==========================Delete Modal=================================-->
+                            <!-- MODAL Effects -->
+                            <div class="modal fade" id="modaldemo8">
+                                <div class="modal-dialog modal-dialog-centered text-center" role="document">
+                                    <div class="modal-content modal-content-demo">
+                                        <div class="modal-header">
+                                            <h6 class="modal-title">حذف واکسن</h6><button aria-label="Close"
+                                                class="btn-close" data-bs-dismiss="modal"><span
+                                                    aria-hidden="true ">&times;</span></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            آیا با حذف این واکسن موافق هستید؟
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button class="btn btn-light deleteH" data-bs-dismiss="modal">تایید</button> <button
+                                                class="btn btn-danger" data-bs-dismiss="modal">لغو</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <style>
+                                #modaldemo8 .modal-header {
+                                    background-color: rgb(169 0 0 / 94%);
+                                    border-bottom: 1px solid rgb(126 0 0) !important;
+                                    color: white;
+                                }
+
+                                #modaldemo8 .modal-body {
+                                    background-color: rgb(159 0 0 / 94%);
+                                    color: white;
+                                }
+
+                                #modaldemo8 .modal-footer {
+                                    background-color: rgb(169 0 0 / 94%);
+                                    border-top: 1px solid rgb(126 0 0) !important;
+                                    color: white;
+                                }
+                            </style>
+                            <!--==========================Delete Modal=================================-->
+
+
+                            <!----=====================================APP-CONTENT OPEN =========================================-->
+                            <div class="main-content app-content mt-0">
+                                <div class="side-app">
+
+                                    <!-- CONTAINER -->
+                                    <div class="main-container container-fluid">
+                                        <br />
+
+                                        <!-- ROW OPEN -->
+                                        <div class="row row-cards">
+                                            <div class="col-lg-12 col-xl-12">
+                                                <div class="input-group mb-5">
+                                                    <input type="text" class="form-control" id="searchInput" placeholder="نام واکسن">
+                                                    <div class="input-group-text btn btn-primary" id="userSearch">
+                                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="card">
+                                                    <div class="card-header border-bottom-0">
+                                                        <a href="#input-modal" data-bs-effect="effect-scale"
+                                                            data-bs-toggle="modal"
+                                                            class="btn btn-primary modal-effect">افزودن واکسن
+                                                            جدید</a>
+                                                    </div>
+                                                    <div class="e-table px-5 pb-5">
+                                                        <div class="table-responsive table-lg">
+                                                            <table class="table border-top table-bordered mb-0">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>نام واکسن</th>
+                                                                        <th class="text-center">عملکردها</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <% if(vaccines){
+                                                                        vaccines.forEach((vaccine)=>{
+                                                                        %>
+
+                                                                        <tr>
+                                                                            <td class="text-nowrap align-middle">
+                                                                                <%=vaccine.name%>
+                                                                            </td>
+
+                                                                            <td class="text-center align-middle">
+                                                                                <div class="btn-group align-top">
+                                                                                    <a class="btn btn-sm btn-primary badge modal-effect editHCenter"
+                                                                                        data-target="#input-modal"
+                                                                                        data-bs-effect="effect-rotate-bottom"
+                                                                                        data-bs-toggle="modal"
+                                                                                        href="#input-modal"
+                                                                                        data-id="<%=vaccine._id.toString()%>"
+                                                                                        type="button">ویرایش</a>
+                                                                                    <a class="btn btn-sm btn-danger badge modal-effect deleteModal"
+                                                                                        data-bs-effect="effect-super-scaled"
+                                                                                        data-id="<%=vaccine._id.toString()%>"
+                                                                                        data-bs-toggle="modal"
+                                                                                        href="#modaldemo8"
+                                                                                        type="button"><i
+                                                                                            class="fa fa-trash"></i></a>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr> 
+                                                                        <% }); } %>
+
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- COL-END -->
+                                        </div>
+                                        <!-- ROW CLOSED -->
+                                    </div>
+                                    <!-- CONTAINER CLOSED -->
+                                </div>
+                            </div>
+                            <!--=============================================== APP-CONTENT CLOSE ==================================-->
+                </div>
+
+                <!-- FOOTER -->
+                <footer class="footer">
+
+                </footer>
+                <!-- FOOTER END -->
+
+            </div>
+
+            <!-- BACK-TO-TOP -->
+            <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
+
+            <%- include('layout/script.ejs') %>
+                <!-- SWEET-ALERT JS -->
+                <script src="/assets/plugins/sweet-alert/sweetalert.min.js"></script>
+                <script>
+                    $(document).ready(() => {
+                        $('.deleteModal').on('click', (e) => {
+                            $('.deleteH').attr('data-id', $(e.target).closest('a').attr('data-id'));
+                        })
+                        $('.deleteH').on('click', (e) => {
+                            let _id = $(e.target).attr('data-id');
+                            window.location.href = `<%=process.env.SITEURL%>/panel/vaccine/delete/${_id}`;
+                        })
+                        let editElm = null;
+                        $('.editHCenter').on('click', (e) => {
+                            $('#regVaccine').attr('data-id', $(e.target).closest('a').attr('data-id'));
+                            $('#regVaccine').attr('data-action', 'edit');
+                            let vaccineName = $(e.target).closest('tr').children().eq(0).text().trim();
+                            editElm = e;
+                            $('#vaccineName').val(vaccineName);
+                        })
+                        $('#regVaccine').on('click', (e) => {
+                            let vaccineName = $('#vaccineName').val();
+                            console.log($(e.target).attr('data-action'))
+                            if ($(e.target).attr('data-action') == 'create') {
+                                let data = JSON.stringify({
+                                    vaccineName
+                                });
+                                $.ajax({
+                                    url: `<%=process.env.SITEURL%>/panel/vaccine/create`,
+                                    type: 'post',
+                                    dataType: 'json',
+                                    contentType: 'application/json',
+                                    data: data,
+                                    success: (res) => {
+                                        if (res.statusCode === 200) {
+                                            // Message
+                                        Toast('واکسن با موفقیت ثبت شد');
+
+                                            setTimeout(function () {
+                                                window.location.href = `<%=process.env.SITEURL%>/panel/vaccines`;
+                                            }, 500);
+                                        }
+                                    },
+                                    error: function (err) {
+                                        console.log(err)
+                                    }
+                                });
+                            } else {
+                                $(e.target).attr('data-action', 'create');
+                                let data = JSON.stringify({
+                                    _id: $(e.target).attr('data-id'),
+                                    name:vaccineName
+                                });
+                                $.ajax({
+                                    url: `<%=process.env.SITEURL%>/panel/vaccine/edit`,
+                                    type: 'post',
+                                    dataType: 'json',
+                                    contentType: 'application/json',
+                                    data: data,
+                                    success: (res) => {
+                                        if (res.statusCode === 200) {
+                                            // Message
+                                            $(editElm.target).closest('tr').children().eq(0).text(vaccineName);
+
+                                            Toast('واکسن با موفقیت ویرایش شد');
+                                            $('#input-modal').modal('hide');
+                                        }
+                                    },
+                                    error: function (err) {
+                                        console.log(err)
+                                    }
+                                });
+                            }
+                        });
+                        $('#userSearch').on('click',()=>{
+                            let searchInput = $('#searchInput').val().trim();
+                            window.location.href = `<%=process.env.SITEURL%>/panel/hcenters/search/${searchInput}`;
+                        })
+                    });
+                </script>
+    </body>
+
+
+</html>

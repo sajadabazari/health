@@ -1,0 +1,35 @@
+
+/*------ change font------*/
+.ms-search input,
+.jvectormap-tip, #ui_notifIt p, .c3-tooltip td, .c3-chart-text text, .c3 text, .popover, .sp-container button, .sp-cancel,
+.pcr-app .pcr-interaction .pcr-save, .pcr-app .pcr-interaction .pcr-cancel, .pcr-app .pcr-interaction .pcr-clear,
+.datepicker td, .datepicker-plot-area *, .ql-container, .fr-box.fr-basic .fr-element, .richText .richText-editor,
+.wizard > .steps a .number, .wizard > .steps a:hover .number, .wizard > .steps a:active .number, .tooltip, body ,
+svg text tspan,.morris-hover.morris-default-style,.nvd3 text ,.nvd3 .title,.nvtooltip{
+    font-family: main-font, serif !important;
+}
+
+.login-social-icon span,
+.btn, .main-chat-time span {
+    letter-spacing: 0
+}
+
+.vtimeline .timeline-wrapper .timeline-panel .timeline-footer span {
+    display: flex;
+    align-items: center;
+}
+
+.panel-body .lead {
+    font-size: 15px;
+}
+
+.price .panel-body .lead strong {
+    font-size: 17px;
+}
+
+.panel-body .lead strong {
+    font-size: 19px;
+}
+.rtl .ms-search input {
+    padding: 0 20px 0 5px;
+}

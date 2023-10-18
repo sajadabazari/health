@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="fa-IR" dir="rtl">
+
+<%- include("../layout/head",{title:'پنل سامانه سلامت'}) %>
+
+<body class="app sidebar-mini rtl light-mode">
+  <link rel="stylesheet" href="/css/datatable-custom.css" />
+
+  <%- include('../layout/switcher') %>
+  <!-- GLOBAL-LOADER -->
+  <div id="global-loader">
+    <img src="/assets/images/loader.svg" class="loader-img" alt="Loader">
+  </div>
+  <!-- /GLOBAL-LOADER -->
+
+  <!-- PAGE -->
+  <div class="page">
+    <div class="page-main">
+
+      <!-- app-Header -->
+      <%- include('../layout/header',{login}) %>
+      <!-- /app-Header -->
+      <%- include('../layout/sidebar') %>
+
+
+
+
+      <!--==========================Delete Modal=================================-->
+      <!-- MODAL Effects -->
+      <div class="modal fade" id="modaldemo8">
+        <div class="modal-dialog modal-dialog-centered text-center" role="document">
+          <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+              <h6 class="modal-title">حذف کاربر</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true ">&times;</span></button>
+            </div>
+            <div class="modal-body">
+              آیا با حذف کاربر موافق هستید؟
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-light deleteUser">تایید</button> <button class="btn btn-danger" data-bs-dismiss="modal">لغو</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <style>
+        .modal-header {
+          background-color: rgb(169 0 0 / 94%);
+          border-bottom: 1px solid rgb(126 0 0) !important;
+          color: white;
+        }
+
+        .modal-body {
+          background-color: rgb(159 0 0 / 94%);
+          color: white;
+        }
+        .badge-danger{
+          background: #ea0041;
+          color:white;
+        }
+        .badge-info{
+          background: #00baea;
+          color:white;
+        }
+        .modal-footer {
+          background-color: rgb(169 0 0 / 94%);
+          border-top: 1px solid rgb(126 0 0) !important;
+          color: white;
+        }
+      </style>
+      <!--==========================Delete Modal=================================-->
+
+
+      <!----=====================================APP-CONTENT OPEN =========================================-->
+      <div class="main-content app-content mt-0">
+        <div class="side-app">
+
+          <!-- CONTAINER -->
+          <div class="main-container container-fluid">
+            <br />
+
+            <!-- ROW OPEN -->
+            <div class="row row-cards">
+              <div class="col-lg-12 col-xl-12">
+                <div class="card">
+                  <div class="card-header border-bottom-0">
+                  </div>
+                  <div class="e-table px-5 pb-5">
+                    <div class="table-responsive table-lg">
+                      <div class="sk-loader">
+                        <div class="skeleton skeleton-line" style="
+                                                                --c-w: 100%;
+                                                                --c-s: 60px;
+                                                                --l-h: 40px;
+                                                                --t: 1.5s;
+                                                                --g-gap: 30px;
+                                                              "></div>
+                        <div class="skeleton skeleton-line" style="
+                                                                --c-w: 100%;
+                                                                --c-s: 60px;
+                                                                --l-h: 30px;
+                                                                --t: 1.5s;
+                                                                --g-gap: 30px;
+                                                                transform: rotate(180deg);
+                                                              "></div>
+                        <div class="skeleton skeleton-line" style="
+                                                                --c-w: 100%;
+                                                                --c-s: 60px;
+                                                                --l-h: 30px;
+                                                                --t: 1.5s;
+                                                                --g-gap: 30px;
+                                                                transform: rotate(180deg);
+                                                              "></div>
+                        <div class="skeleton skeleton-line" style="
+                                                                --c-w: 100%;
+                                                                --c-s: 60px;
+                                                                --l-h: 30px;
+                                                                --t: 1.5s;
+                                                                --g-gap: 30px;
+                                                                transform: rotate(180deg);
+                                                              "></div>
+                        <div class="skeleton skeleton-line" style="
+                                                                --c-w: 100%;
+                                                                --c-s: 60px;
+                                                                --l-h: 30px;
+                                                                --t: 1.5s;
+                                                                --g-gap: 30px;
+                                                                transform: rotate(180deg);
+                                                              "></div>
+                        <div class="skeleton skeleton-line" style="
+                                                                --c-w: 100%;
+                                                                --c-s: 60px;
+                                                                --l-h: 30px;
+                                                                --t: 1.5s;
+                                                                --g-gap: 30px;
+                                                                transform: rotate(180deg);
+                                                              "></div>
+                      </div>
+                      <div class="dt-ext table-responsive" style="visibility: hidden">
+                        <table class="display" id="answerTable">
+                          <thead>
+                            <tr>
+                              <th>نام و نام خانوادگی</th>
+                              <th>نوع پروفایل</th>
+                              <th>وضعیت</th>
+                              <th class="text-center">عملکردها</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <% if(answers){ answers.forEach((answer)=>{
+                                                                        %>
+
+                            <tr>
+                              <td class="text-nowrap align-middle">
+                                <%=answer.user.fname%>
+                                <%=answer.user.lname%>
+                              </td>
+                              <td class="text-nowrap align-middle">
+                                <%=answer.user.userLevelLabel%>
+                              </td>
+                              <td class="text-nowrap align-middle">
+                                <span class="badge badge-<%=answer.seen?'info':'danger'%>">
+                                  <%=answer.seen?'دیده شده':'دیده نشده'%>
+                                </span>
+                              </td>
+                              <td class="text-center align-middle">
+                                <div class="btn-group align-top">
+                                  <a href="<%=process.env.SITEURL%>/uploads/answers/<%=answer.file%>" class="btn btn-sm btn-primary badge" type="button">دانلود پاسخنامه</a>
+                                  <a href="" class="btn btn-sm btn-success badge setSeen" type="button" data-id="<%=answer._id.toString()%>" title="علامت گذاری به عنوان دیده شده"><i class="fa fa-eye"></i></a>
+                                  <!-- <a class="btn btn-sm btn-danger badge modal-effect deleteModal" data-bs-effect="effect-super-scaled" data-id="" data-bs-toggle="modal" href="#modaldemo8" type="button"><i class="fa fa-trash"></i></a>-->
+                                </div>
+                              </td>
+                            </tr>
+                            <% }); } %>
+
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- COL-END -->
+            </div>
+            <!-- ROW CLOSED -->
+          </div>
+          <!-- CONTAINER CLOSED -->
+        </div>
+      </div>
+      <!--=============================================== APP-CONTENT CLOSE ==================================-->
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+
+    </footer>
+    <!-- FOOTER END -->
+
+  </div>
+
+  <!-- BACK-TO-TOP -->
+  <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
+
+  <%- include('../layout/script.ejs') %>
+  <!-- SWEET-ALERT JS -->
+  <script src="/assets/plugins/sweet-alert/sweetalert.min.js"></script>
+  <script src="/js/services/questionService.js"></script>
+
+  <script>
+    $(document).ready(() => {
+      let editElement;
+      let answerTable = $("#answerTable").DataTable({
+        responsive: true,
+        pageLength: 25
+      });
+      $('.setSeen').on('click',function(e){
+        e.preventDefault();
+        editElement = $(this).closest('tr');
+        setSeen($(this).attr('data-id'),editElement);
+      })
+      $(".sk-loader").remove();
+      $(".table-responsive").css("visibility", "unset");
+      $('.deleteModal').on('click', (e) => {
+        $('.deleteUser').attr('data-id', $(e.target).closest('a').attr('data-id'));
+      })
+      $('.deleteUser').on('click', (e) => {
+        let _id = $(e.target).attr('data-id');
+        window.location.href = `<%=process.env.SITEURL%>/panel/user/deleteUser/${_id}`;
+      })
+      $('#userSearch').on('click', () => {
+        let searchInput = $('#searchInput').val().trim();
+        window.location.href = `<%=process.env.SITEURL%>/panel/user/search/${searchInput}`;
+      })
+    });
+  </script>
+</body>
+
+
+</html>

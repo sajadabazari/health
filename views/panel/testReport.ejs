@@ -1,0 +1,85 @@
+<button id="advancedReportBtn" style="background: rgb(3, 206, 213);
+            padding:10px;color:white;border:1px solid rgb(243, 243, 243);cursor: pointer;">report</button>
+
+<!-- JQUERY JS -->
+<script src="/assets/js/jquery.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  $(document).ready(() => {
+
+
+
+
+
+
+
+
+
+
+
+
+    $('#advancedReportBtn').on('click', () => {
+      let reportOptions = {}
+          reportOptions.gender = ['man','female'];
+          reportOptions.educationRate = ['Arshad','Karshenasi'];
+          reportOptions.ecoStatus = ['average','good'];
+          reportOptions.diseasesChecks = ['cD_1','cD_2','cD_3'];
+          reportOptions.testResult = {value:false};
+          reportOptions.allergy = {value:false};
+          reportOptions.vaccineName = ['فایزر','آسترا'];
+          reportOptions.typeSideEffect = ['cTS_1','cTS_2','cTS_3'];
+          reportOptions.vaccineDose = 2;
+          reportOptions.age = {min:18,max:44};
+          reportOptions.weight = {min:18,max:64};
+          reportOptions.height = {min:18,max:194};
+          reportOptions.bmi = {min:18,max:44.4};
+          reportOptions.smoking = {value:false};
+          reportOptions.pregnancyStatus = {value:false};
+          reportOptions.brestFeedingStatus = {value:false};
+
+        let reportData = JSON.stringify({
+            reportOptions
+        })
+      $.ajax({
+        url: `<%=process.env.SITEURL%>/panel/report/testAdvanced`,
+        type: 'post',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: reportData,
+        success: (res) => {
+          console.log(res)
+        },
+        error: function(err) {
+          console.log(err)
+        }
+      });
+      console.log(reportOptions)
+    })
+
+
+
+
+
+
+
+
+
+
+
+
+  })
+</script>
