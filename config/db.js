@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
 
 exports.connectToDB = () => {
-    return mongoose.connect("mongodb://localhost:27017/health_master");
+    return mongoose.connect("remote-asiatech.runflare.com:30200");
 };
